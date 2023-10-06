@@ -5,6 +5,11 @@ Traduzione insieme a chat GPT degli appunti di Giunchiglia AA 2023/24
 ### Installazione
 Ho usato MiKTeX su MacBook con Vscode, estensione LateX Workshop. File unico [qui](logica.tex). Pdf generato [qui](logica.pdf).
 
+Con Miketex o anche altri:
+```bash
+pdflatex logica.tex 
+```
+
 ### TODO
 Ancora da sistemare:
 - Capitolo 1
