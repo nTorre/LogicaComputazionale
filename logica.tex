@@ -1,0 +1,473 @@
+\documentclass{report}
+\usepackage{etoolbox}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{ragged2e}  % Pacchetto per l'allineamento del testo
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\usepackage{outlines}
+\usepackage{enumitem}
+
+
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=black,  %choose some color if you want links to stand out
+}
+
+\newcounter{myexample}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themyexample}{\arabic{chapter}.\arabic{myexample}}  % Formato del contatore
+
+\newenvironment{myexample}[1][]{
+  \refstepcounter{myexample}
+  \par\medskip\noindent{\itshape Esempio \themyexample\quad #1} \ignorespaces
+}{
+  \par\medskip
+}
+
+
+\newcounter{myobservation}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themyobservation}{\arabic{chapter}.\arabic{myobservation}}  % Formato del contatore
+
+\newenvironment{myobservation}[1][]{
+  \refstepcounter{myobservation}
+  \par\medskip\noindent\textbf{Osservazione \themyobservation\quad #1} \ignorespaces
+}{  \par\medskip
+}
+
+\newcounter{myintuition}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themyintuition}{\arabic{chapter}.\arabic{myintuition}}  % Formato del contatore
+
+\newenvironment{myintuition}[1][]{
+  \refstepcounter{myintuition}
+  \par\medskip\noindent\textbf{Intuizione \themyintuition\quad #1} \ignorespaces
+}{  \par\medskip
+}
+
+\newcounter{mydefinition}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themydefinition}{\arabic{chapter}.\arabic{mydefinition}}  % Formato del contatore
+
+\newenvironment{mydefinition}[1][]{
+  \refstepcounter{mydefinition}
+  \par\medskip\noindent\textbf{Definizione \themydefinition\quad #1} \ignorespaces
+}{  \par\medskip
+}
+
+\newcounter{mytheorem}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themytheorem}{\arabic{chapter}.\arabic{mytheorem}}  % Formato del contatore
+
+\newenvironment{mytheorem}[1][]{
+  \refstepcounter{mytheorem}
+  \par\medskip\noindent\textbf{Teorema \themytheorem\quad #1} \ignorespaces
+}{  \par\medskip
+}
+
+
+
+\newcounter{myimage}[chapter]
+\renewcommand{\themyimage}{\thechapter.\arabic{myimage}}
+
+\begin{document}
+\begin{titlepage}
+    \title{Traduzione Handout Giunchilgia}
+
+\author{
+    Nicolas Torriglia\\
+    \and
+    Chat GPT\\
+}
+\date{}
+
+\maketitle
+\end{titlepage}
+
+
+\newpage
+
+
+
+\cleardoublepage
+\setcounter{page}{2}
+\tableofcontents
+
+\chapter{Il mondo e la mente}
+\section{Frames della mente} 
+\section{Illusioni ottiche}
+\section{Fallacie mentali}
+\section{Quindi?}
+
+\chapter{Rappresentazioni}
+\section{Il gap semantico}
+\section{Rappresentazioni mentali}
+\section{Rappresentazioni}
+\section{Esercizi}
+
+\chapter{Modelli e teorie asserzionali}
+L'osservazione 2.15 potrebbe suggerire che non esista una soluzione al problema della soggettività delle rappresentazioni mentali. Tuttavia, ciò non è vero. L'osservazione chiave è che le rappresentazioni sono costruite dagli esseri umani con lo scopo specifico di far convergere il più possibile le rappresentazioni mentali della stessa rappresentazione, minimizzando in particolare la probabilità di incongruenze. La domanda da affrontare è come costruire tali rappresentazioni.
+\section{Modelli}
+Il punto di partenza sono le rappresentazioni mentali analogiche, poiché le nostre rappresentazioni hanno inizio da qui. Considera l'esempio seguente.
+\begin{myexample}[(Cosa c'è in una rappresentazione analogica)]
+    Considera la rappresentazione analogica illustrata nell'immagine della Figura 3.1. Possiamo vedere tre persone, che possiamo assumere abbiano i nomi Paolo, Stefania e Sofia, che sono amici, vari cani, il fatto che siano uno a destra dell'altro e, naturalmente, molto altro.    
+\end{myexample}
+\clearpage
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{imgs/img3.1.png}
+    \caption{Una rappresentazione analogica di una situazione quotidiana}
+\end{figure}
+
+\begin{myobservation}[(Cosa c'è in una rappresentazione analogica)]
+    Considera la rappresentazione analogica illustrata nell'immagine della Figura 3.1. Possiamo vedere tre persone, che possiamo assumere abbiano i nomi Paolo, Stefania e Sofia, che sono amici, vari cani, il fatto che siano uno a destra dell'altro e, naturalmente, molto altro.    
+\end{myobservation}
+
+\begin{myintuition}[(Fatto)]
+    Un fatto \verb+f+ è un qualcosa che succede certamente ad una certa coordinata spaziotemporale
+\end{myintuition}
+
+\begin{mydefinition}[(Modello)]
+    Un modello \verb+M+ è un set di fatti \verb+F = {f}+
+    \begin{equation}
+        \verb+M = {f}+
+    \end{equation}
+\end{mydefinition}
+
+\begin{myobservation}[(Fatti e modelli)] I fatti sono gli elementi atomici, non ulteriormente decomponibili, di un modello. Nota che, a differenza dei modelli, i fatti sono considerati come una nozione primitiva e quindi non possono essere definiti formalmente.
+\end{myobservation}
+
+\begin{myexample}[(I fatti di un modello rappresentato nella Figura 3.1)]
+    Un modello, uno tra molti altri, della situazione rappresentata nella Figura 3.1 potrebbe contenere, ad esempio, i seguenti fatti:
+    \begin{verbatim}
+    Sofia è una persona         Paolo è un uomo
+    Rocky è un cane             Sofia è vicina a Paolo
+    Sofia ha i capelli biondi   Sofia è un'amica di Paolo
+    Rocky è un animale          Rocky è il cane di Sofia
+    \end{verbatim}
+\end{myexample}
+
+\begin{myobservation}[(La soggettività dei fatti)]
+    I fatti sono ciò che viene osservato e anche descritto, ad esempio, a terze persone. Il problema è che, proprio a causa di quanto discusso nella Sezione 2.2 e, nello specifico, il fatto di cosa siano i fatti è soggettivo e nascosto nelle menti delle persone che li percepiscono. Quanti altri fatti più e/o diversi da quelli elencati nell'Esempio 3.2 potresti immaginare? Potrebbero essere infiniti! Nota che ogni fatto può essere decomposto in qualsiasi insieme di fatti più semplici se questo è l'attuale focus dell'osservatore. Quindi, per esempio, anziché concentrarsi su Sofia, potrei concentrarmi sui suoi capelli, sulle sue gambe o su...
+\end{myobservation}
+
+\begin{myobservation}[(Fatti mutualmente (in)coerenti in un modello)]
+    Il modello dell'Esempio 3.2 potrebbe essere esteso per affermare il fatto che Sofia è una donna o che Paolo è una persona. Tuttavia, avremmo problemi nell'estenderlo aggiungendo il fatto che Paolo è una donna o che Sofia è un cane, poiché avremmo due fatti mutualmente inconsistenti, qualcosa che sappiamo non può accadere nel mondo come lo percepiamo. Vedi anche l'Osservazione 2.9. Un modello non può contenere fatti che, almeno intuitivamente, sono mutualmente inconsistenti. Oltre a questo semplice esempio, la questione è come formalizzare questa intuizione e quindi come essere in grado di rilevarla mediante il ragionamento sui modelli.
+\end{myobservation}
+
+\begin{myobservation}[(Fatti e affermazioni)]
+    Per essere considerato un fatto, deve essere descritto linguisticamente come tale. Non è per caso che nell'Esempio 3.2 abbiamo indicato i fatti attraverso un insieme di descrizioni in linguaggio naturale. Chiamiamo tali descrizioni "affermazioni". Il modo più semplice di pensare a un'affermazione è come a una frase dichiarativa in linguaggio naturale articolata in termini di un soggetto che si trova in una relazione più o meno complessa con un oggetto (come ad esempio, "Stefania sta camminando con i cani verso il centro della città"), o di un soggetto che detiene.
+\end{myobservation}
+
+
+\section{Teorie asserzionali}
+\begin{myobservation}[(Affermazioni e teorie assertive)]
+    Le affermazioni sono descrizioni indivisibili, diciamo atomiche, di un fatto. Le teorie assertive sono descrizioni di modelli.
+\end{myobservation}
+
+\begin{myintuition}[(Affermazione)]
+    Un'affermazione $a$ è una rappresentazione linguistica atomica di un certo fatto \verb+f+.
+\end{myintuition}
+
+\begin{mydefinition}[(Teoria assertiva)]
+    Una teoria assertiva $\mathcal{T}_A$ è un insieme di affermazioni.
+    \begin{equation}
+        \mathcal{T}_A = \{a\}
+    \end{equation}
+
+Abbiamo bisogno di definire che un'affermazione è la descrizione di un fatto specifico e, più in generale, che una teoria assertiva descrive un modello.
+
+\begin{myexample}[(Una teoria assertiva del modello rappresentato nella Figura 3.1)]
+    Una teoria assertiva, una tra molte altre, che descrive i fatti dell'Esempio 3.2 in linguaggio naturale potrebbe essere, ad esempio:
+    \begin{verbatim}
+    Sofia è una persona         Paolo è un uomo
+    Sofia è vicina a Paolo      Rocky è il cane di Sofia
+    Sofia è un’amica di Paolo   Sofia ha i capelli biondi
+    Rocky è un cane             Rocky è un animale
+    \end{verbatim}
+
+\end{myexample}
+
+Come si può notare, la teoria assertiva è in italiano, poiché essendo in linguaggio naturale può essere espressa anche in questo modo, e potrebbe essere altrettanto espressa in inglese.
+
+\end{mydefinition}
+
+\section{Funzioni d'interpretazione}
+\begin{mydefinition}[(Funzione d'interpretazione)]
+    Sia $\mathcal{I}_A$ una funzione di interpretazione di una teoria assertiva, definita come:
+    \begin{equation}
+        \mathcal{I}_A : \mathcal{T}_A \rightarrow \verb|M|
+    \end{equation}
+    Diciamo che un fatto \verb+f+ $\in$ \verb+M+ è l'interpretazione di $a \in \mathcal{I}_A$, e scriviamo:
+    \begin{equation}
+        \verb|f| = \mathcal{I}_A(a) = a^{\mathcal{I_A}}
+    \end{equation}
+    per intendere che $a$ è una descrizione linguistica di \verb|f|. Diciamo che \verb|f| è l'interpretazione di $a$, o, equivalentemente, che a denota \verb|f|.
+(Più asserzioni possono portare ad un fatto)
+\end{mydefinition}
+
+\begin{myobservation}[(Funzione di interpretazione, polisemia)]
+    Si assume che $\mathcal{I}_A$ sia una funzione, ovvero per ogni fatto esiste solo un'affermazione che lo descrive. In effetti, dobbiamo garantire che se due fatti $f_1$ e $f_2$ 
+    sono diversi, allora non possono entrambi essere il risultato dell'interpretazione della stessa affermazione $a$, ovvero non può essere che se $\mathcal{T}_A = f_1$ allora anche $\mathcal{T}_A = f_2$. 
+    Questo fenomeno, chiamato polisemia, è diffuso nelle lingue naturali ed è una delle principali fonti di malintesi e, di conseguenza, di costruzione di rappresentazioni mentali divergenti della stessa rappresentazione. 
+    La polisemia delle affermazioni deriva direttamente dalla polisemia delle parole. Ad esempio: il nome proprio Java ha tre significati, è un linguaggio di programmazione, un tipo di chicchi di caffè e un'isola. La parola "auto" ha vari significati, ad esempio può significare automobile o una parte di un treno. 
+    Parole generali, come "fare", hanno più di dieci significati. La polisemia è comune alla maggior parte delle parole, in particolare con quelle parole che vengono più comunemente utilizzate (le persone tendono a dare alle parole il proprio significato specifico) ed è una delle principali complicazioni (se non l'unica) che sorgono durante la costruzione di sistemi di comprensione del linguaggio naturale.
+\end{myobservation}
+
+\begin{myobservation}[(La non ambiguità delle funzioni di interpretazione)]
+    Come dalla Sezione 1.3, le descrizioni linguistiche sono ambigue. Come dall'Osservazione 3.7, una delle principali ragioni è la polisemia delle parole. Tuttavia, questa ambiguità è nella mente dell'ascoltatore/lettore. Si può assumere che chi parla/scrive abbia sempre in mente l'analoga rappresentazione unica che sta descrivendo. La nozione di funzione di interpretazione impone questa supposizione, obbligando chi parla/scrive a essere esplicito sul significato inteso.
+\end{myobservation}
+
+\begin{myobservation}[(Funzione di interpretazione, sinonimia)]
+    Due affermazioni sono sinonimi quando hanno lo stesso significato, ovvero l'interpretazione di due affermazioni diverse 
+    $a_1$ e $a:$ può denotare lo stesso fatto $f$, ovvero $\mathcal{I}_A(a_1) = I_A(a_2) = f$. Le parole sinonime sono nuovamente diffuse nelle lingue naturali, in particolare con le entità più comuni. Le persone e le entità in generale hanno più nomi, ad esempio nome, cognome, nome più cognome, soprannomi, che sono sinonimi. Diverse lingue generano diversi nomi per la stessa entità (ad esempio, Gran Bretagna, Great Britain). Ci sono anche sostantivi sinonimi, ad esempio auto e automobile. Nota come la parola "auto" sia sia polisemica che sinonima. Anche questo è abbastanza comune. In generale, la sinonimia non è un problema. Tuttavia, nei database relazionali, la sinonimia non è consentita, essenzialmente per motivi di efficienza. I database sono sviluppati sulla base dell'assunzione del nome unico, ovvero nei database, stringhe e affermazioni diverse significano sempre cose diverse.
+\end{myobservation}
+
+\begin{myexample}[(Una funzione di interpretazione che fornisce un'interpretazione della teoria assertiva che descrive la Figura 3.1)]
+    La funzione di interpretazione naturale che interpreta le frasi nell'Esempio 3.3 (sinistra) nei fatti dell'Esempio 3.2 (destra) è la seguente:
+    \begin{FlushLeft}
+        \hspace{1cm}
+        \parbox{\dimexpr\linewidth-1cm}{
+            $\mathcal{I}_A$(Sofia è una persona) = Sofia is a person \linebreak
+            $\mathcal{I}_A$(Paolo è un uomo) = Paolo è un uomo \linebreak
+            $\mathcal{I}_A$(Rocky è un cane) = Rocky è un cane \linebreak
+            ...
+            }
+
+    \end{FlushLeft}
+\end{myexample}
+
+\begin{myobservation}[(Affermazioni e fatti, soggettività)]
+    Il problema della soggettività delle rappresentazioni rimane, essendo un fatto inevitabile della vita. Tuttavia, le nozioni di fatto, affermazione e funzione di interpretazione forniscono uno strumento. In primo luogo, si assume che i fatti siano descritti in modo inequivocabile, tramite funzioni di interpretazione, dalle affermazioni che, a loro volta, sono rappresentazioni linguistiche e, come tali, possono essere condivise. In secondo luogo, le affermazioni, anche se selezionate soggettivamente dagli esseri umani, si presume siano atomiche, cioè forniscono il livello minimo possibile di dettagli con cui un modello può essere descritto.    
+\end{myobservation}
+\clearpage
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{imgs/img3.2.png}
+    \caption{Diagramma di rappresentazione}
+\end{figure}
+
+\chapter{Modelli formali e teorie asserzionali}
+Per evitare un ragionamento fallace, è necessario rappresentare modelli e teorie assertive in modo inequivocabile, ovvero formale. Quattro sono le caratteristiche che ci interessano:
+\begin{itemize}
+    \item \textbf{Formalità}: dovrebbe essere un linguaggio logico, ovvero con una sintassi e una semantica ben definite;
+    \item \textbf{Universalità}: dovrebbe essere in grado di rappresentare tutti i tipi di fatti;
+    \item \textbf{Intuitività}: dovrebbe consentire affermazioni i cui elementi di base (nomi di entità, concetti e proprietà) così come la loro struttura (ovvero come gli elementi di base sono collegati per costruire affermazioni) dovrebbero essere, da un lato, intuitivi per le persone mentre, dall'altro lato, avere una mappatura diretta alla struttura e all'organizzazione del dominio di riferimento;
+    \item \textbf{Efficienza} computazionale: $\mathcal{L}_A$ dovrebbe consentire un motore di inferenza veloce ed efficiente, sfruttando l'efficienza intrinseca delle strutture dati utilizzate per memorizzare il modello del mondo.
+\end{itemize}
+
+\begin{myobservation}[(Tipi di linguaggi assertivi)]
+    I modelli ER e UML sono intuitivi ma non universali, rappresentano solo fatti di conoscenza. I database sono computazionalmente efficienti ma rappresentano solo fatti di dati. Il linguaggio naturale è universale ma la sua semantica non è formalmente definita e non è computazionalmente efficiente. Quest'ultima debolezza si estende anche a sottoinsiemi ben definiti delle lingue naturali. Come esempio di questo caso, i linguaggi logici sono universali con sintassi e semantica ben definite, ma non sono intuitivi da comprendere e anche computazionalmente inefficienti (vedi anche la Sezione 6.5).    
+\end{myobservation}
+
+Nella Sezione 4.1, introduciamo alcune definizioni di base della teoria degli insiemi, utili per definire D, mentre, nella Sezione 4.2, introduciamo alcune definizioni di base della teoria dei grafi utili per definire $\mathcal{L}_A$.
+
+
+    
+\section{Teoria degli insiemi}
+\subsection{Definizioni base}
+Possiamo definire gli insiemi in due modi:
+\begin{itemize}
+    \item \textbf{Per elencazione}: L'insieme è descritto elencando tutti i suoi elementi (ad esempio, $A=\{a,e,i,o,u\}$).
+    \item \textbf{Per astrazione}: L'insieme è descritto attraverso una proprietà dei suoi elementi (ad esempio, $A=\{x|x \text{è una vocale dell'alfabeto latino}\}$).
+\end{itemize}
+
+Abbiamo le seguenti definizioni di base.
+
+\begin{mydefinition}[(Insieme vuoto)]
+    $\emptyset$ è l'insieme che non contiene alcun elemento.
+\end{mydefinition}
+
+\begin{mydefinition}[(Appartenenza)]
+    $a \in A$, l'elemento $a$ appartiene all'insieme $A$.
+\end{mydefinition}
+
+\begin{mydefinition}[(Non appartenenza)]
+    $a \notin A$, l'elemento $a$ non appartiene all'insieme $A$.
+\end{mydefinition}
+
+\begin{mydefinition}[(Uguaglianza)]
+    $A = B$, se e solo se $A$ e $B$ contengono gli stessi elementi.
+\end{mydefinition}
+
+\begin{mydefinition}[(Disuguaglianza)]
+    $A \neq B$, se e solo se non è vero che $A = B$.
+\end{mydefinition}
+
+\begin{mydefinition}[(Sottoinsieme)]
+    $A \subseteq B$, se e solo se tutti gli elementi in $A$ appartengono anche a $B$.
+\end{mydefinition}
+
+\begin{mydefinition}[(Sottoinsieme proprio)]
+    $A \subset B$, se e solo $ \subseteq B$ e $A \neq B$.
+\end{mydefinition}
+
+\begin{mydefinition}[(Insieme universale)]
+    L'insieme universale è l'insieme di tutti gli elementi o membri di tutti gli insiemi correlati e è denotato dalla lettera $\mathcal{U}$
+\end{mydefinition}
+
+Utilizziamo i \textbf{diagrammi di Venn} per rappresentare gli insiemi. I diagrammi di Venn consistono in cerchi sovrapposti o intersecati che rappresentano insiemi e le loro relazioni. Ogni cerchio rappresenta un insieme specifico, e l'area in cui i cerchi si sovrappongono rappresenta gli elementi condivisi tra gli insiemi corrispondenti. Un elemento che non appartiene a un insieme è rappresentato come un punto al di fuori del cerchio che rappresenta l'insieme.
+
+\begin{mydefinition}[(Unione)]
+    Dati due insiemi $A$ e $B$, l'unione di $A$ e $B$ è definita come l'insieme che contiene gli elementi appartenenti a $A$ o a $B$ o ad entrambi, e viene denotata con $\mathbf{A \cup B}$
+\end{mydefinition}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.3\linewidth]{imgs/img4.1.png}
+    \caption{Operazione di unione}
+\end{figure}
+
+
+\begin{mydefinition}[(Intersezione)]
+    Dati due insiemi $A$ e $B$, l'intersezione di $A$ e $B$ è definita come l'insieme che contiene gli elementi appartenenti sia a $A$ sia a $B$, e viene denotata con $\mathbf{A \cap B}$
+\end{mydefinition}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.3\linewidth]{imgs/img4.2.png}
+    \caption{Operazione di intersezione}
+\end{figure}
+
+
+\begin{mydefinition}[(Differenza)]
+    La differenza tra due insiemi $A$ e $B$, è definita come l'insieme che contiene gli elementi che sono membri di $A$, ma non membri di $B$. Viene denotata con $\mathbf{A \setminus B}$
+\end{mydefinition}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.3\linewidth]{imgs/img4.3.png}
+    \caption{Operazione di differenza}
+\end{figure}
+
+
+\begin{mydefinition}[(Differenza complementare)]
+    Dato un insieme universale $U$ e un insieme $A$, dove $A \subseteq U$, il complemento di $A$ in $U$  è definito come l'insieme che contiene tutti gli elementi in $U$ che non appartengono ad $A$ e viene denotato con $\mathbf{A^c}$ o $\mathbf{U \setminus A}$
+\end{mydefinition}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.3\linewidth]{imgs/img4.4.png}
+    \caption{Differenza complementare}
+\end{figure}
+
+\begin{mytheorem}[(Proprietà delle operazioni)]
+    \begin{outline}
+        \1 \textbf{Con lo stesso set}
+            \2 $A \cap A = A$
+            \2 $A \cup A = A$
+
+        \1 \textbf{Commutativa}
+            \2 $A \cap B = B \cap A$
+            \2 $A \cup B = B \cup A$
+
+        \1 \textbf{Insieme vuoto}
+            \2 $A \cap \emptyset = \emptyset$
+            \2 $A \cup \emptyset = A$
+
+        \1 \textbf{Associative}
+            \2 $(A \cap B) \cap C = A \cap (B \cap C)$
+            \2 $A \cap (B \cup C) = (A \cup B) \cap (A \cup C)$
+
+        \1 \textbf{Leggi di De Morgan}
+            \2 $\overline{A \cup B} = \overline{A} \cap \overline{B}$
+            \2 $\overline{A \cap B} = \overline{A} \cup \overline{B}$
+
+    \end{outline}
+\end{mytheorem}
+
+    \subsection{Relazioni}
+    \subsection{Funzioni}
+\section{Teorie dei grafi}
+    \subsection{Nozioni base}
+    \subsection{Grafi ...}
+\section{Esercizi}
+
+\chapter{Modello del Mondo - Rappresentazione Estensionale}
+Le teorie assertive e i modelli rappresentano un passo importante avanti, ma ci sono ancora tre limitazioni principali:
+\begin{itemize}
+    \item Stiamo considerando solo i fatti del modello in esame. Cosa succede con i fatti che possono verificarsi negli altri possibili modelli, descrivendo situazioni possibilmente molto diverse?
+    \item Il linguaggio utilizzato è molto limitato e consiste solo nell'insieme di affermazioni che descrivono i fatti del modello in esame. Cosa succede alle affermazioni che descrivono fatti in tutti gli altri modelli?
+    \item Come conseguenza dei due fatti sopra, la definizione di funzione di interpretazione non è generale. Una nuova e diversa funzione di interpretazione deve essere definita per ogni nuova situazione.
+\end{itemize}
+
+\section{Dominio}
+Secondo l'Equazione (3.1), un modello \verb|M| è deifinito come \verb|M = {f}|, dove \verb|f| è un insieme di fatti che sono veri in una determinata situazione.
+\begin{mydefinition}[Dominio (di interpretazione)]
+    Un dominio (di interpretazione) è un insieme di fatti \verb|{f}|
+    \begin{equation}
+        \verb|D| = \verb|{F}|
+    \end{equation}
+\end{mydefinition}
+
+\begin{mydefinition}[(Modello)]
+    Dato un dominio \verb|D|, un modello \verb|M| è un sott'insieme di \verb|D|
+    \begin{equation}
+        \verb|M| = \verb|{f}| \subseteq D
+    \end{equation}
+\end{mydefinition}
+
+\begin{myobservation}[(Dominio, modello)]
+    Un dominio è l'insieme di tutti i fatti che siamo disposti a considerare. Un modello è semplicemente il sottoinsieme di fatti che definiamo come rappresentativi di ciò che è il caso nella situazione attuale. La Definizione 5.2 generalizza in modo ovvio la Definizione 3.1.    
+\end{myobservation}
+
+\begin{myexample}[(I fatti del dominio rappresentato in Figura 3.1)]
+    Un dominio che raccoglie, tra gli altri, i fatti rappresentati nella Figura 3.1 potrebbe contenere, ad esempio, i seguenti fatti:
+    \begin{verbatim}
+    Sofia is a person       Sofia is a woman
+    Paolo is a man          Paolo is a person
+    Paolo is a dog          Rocky is a dog
+    Sofia is near Paolo     Rocky is the dog of Sofia
+    Rocky is the dog of Paolo . . .
+    \end{verbatim}
+    ... e molti altri
+\end{myexample}
+
+\begin{myobservation}[(Dominio)]
+    Mentre un modello è l'insieme di fatti che sono veri in una certa situazione, un dominio consiste nell'insieme di fatti che potenzialmente possono essere veri per tutte le possibili situazioni. Un dominio definisce tutto e solo ciò che può essere potenzialmente percepito.
+\end{myobservation}
+
+\begin{myobservation}[(Fatti mutuamente inconsistenti in un dominio)]
+    Come dall'Esempio 5.1, un dominio, a differenza di un modello, può contenere fatti che, almeno intuitivamente, sono mutuamente inconsistenti. Dato un dominio, ci sono molti modelli potenziali, alcuni dei quali potenzialmente mutuamente inconsistenti. I domini devono consentire la possibile istanziazione di modelli distinti mutuamente inconsistenti, come avviene normalmente nel mondo.
+\end{myobservation}
+
+
+\section{Linguaggio asserzionale}
+Secondo l'Equazione (3.2), una teoria assertiva $\mathcal{T}_A$ è definita come $\mathcal{T}_A=\{a\}$, dove $\{a\}$ è un insieme di affermazioni che descrivono i fatti che sono veri in una determinata situazione.
+
+\begin{mydefinition}[(Linguaggio assertivo)]
+    Un linguaggio assertivo $mathcal{L}_A$è un insieme di affermazioni $\{a\}$
+    \begin{equation}
+        \mathcal{L}_A = \{a\}
+    \end{equation}
+\end{mydefinition}
+
+\begin{mydefinition}[(Teoria asserzionale)]
+    Data un linguaggio assertivo $\mathcal{L}_A$, una teoria assertvia $\mathcal{T}_A$ è un sottonsieme di $\mathcal{L}_A$
+    \begin{equation}
+        \mathcal{T}_A = \{a\} \subseteq \mathcal{L}_A
+    \end{equation}
+\end{mydefinition}
+
+\begin{myobservation}[(Linguaggio assertivo)]
+    Mentre una teoria assertiva è l'insieme di affermazioni che descrive ciò che è vero in un certo modello, un linguaggio assertivo consiste nell'insieme di affermazioni che descrivono tutti i fatti che possono potenzialmente verificarsi. La Definizione 5.4 si estende in modo ovvio dalla Definizione (3.2).
+\end{myobservation}
+
+\begin{myexample}[(Linguaggio assertivo)]
+    Il linguaggio dell'Esempio 3.3 esteso per includere tutti i fatti del dominio definito nell'Esempio 5.1 allo stesso modo (ossia, traduzioni italiane citate della frase in inglese che descrive un fatto) è un linguaggio assertivo.
+\end{myexample}
+
+\begin{myobservation}[(Completezza e correttezza di un linguaggio assertivo $\mathcal{L}_A$ rispetto a un dominio $D$)]
+    Un linguaggio assertivo non è necessariamente completo, ovvero non contiene necessariamente affermazioni per tutti i fatti in un dominio (che, tra le altre cose, sono in principio infiniti). La caratteristica chiave è che dovrebbe contenere tutte le affermazioni ritenute rilevanti. Viceversa, un linguaggio assertivo è richiesto di essere corretto, cioè di contenere solo affermazioni che denotano fatti nel dominio di riferimento, al fine di evitare affermazioni prive di senso.
+\end{myobservation}
+
+\begin{myexample}[(Linguaggi assertivi):]
+    \begin{enumerate}
+        \item Linguaggi che consentono solo affermazioni in linguaggio naturale della forma "$<$soggetto$>$ $<$verbo$>$ $<$oggetto$>$" descrivono fatti sul mondo. Il linguaggio utilizzato è una sequenza di affermazioni semplici senza frasi complesse.
+        \item I database relazionali (DB) descrivono fatti sul mondo. Il linguaggio utilizzato per descrivere i contenuti di un database relazionale sono le tabelle;
+        \item I modelli entity-relationship (ER) descrivono fatti generali sui contenuti dei database. Sono scritti utilizzando il linguaggio del diagramma ER, un linguaggio di grafi specificamente etichettato.
+        \end{enumerate}
+\end{myexample}
+
+\section{Funzione d'interpretazione}
+
+
+
+\end{document}
