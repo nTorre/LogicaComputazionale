@@ -1,6 +1,8 @@
 logica.aux
-logica.f*
+logica.fdb_latexmk
+logica.fls
 logica.md
 logica.out
-logica.synt*
+logica.synctex.gz
 logica.toc
+logica.log
