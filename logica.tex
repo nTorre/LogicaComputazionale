@@ -62,6 +62,15 @@
 }{  \par\medskip
 }
 
+\newcounter{mynotation}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themynotation}{\arabic{chapter}.\arabic{mynotation}}  % Formato del contatore
+
+\newenvironment{mynotation}[1][]{
+  \refstepcounter{mynotation}
+  \par\medskip\noindent\textbf{Notazione \themynotation\quad #1} \ignorespaces
+}{  \par\medskip
+}
+
 
 
 \newcounter{myimage}[chapter]
@@ -467,7 +476,108 @@ Secondo l'Equazione (3.2), una teoria assertiva $\mathcal{T}_A$ è definita come
 \end{myexample}
 
 \section{Funzione d'interpretazione}
+\begin{mydefinition}[(Funzione di interpretazione)]
+    Sia $\mathcal{L}_A$ un linguaggio di asserzioni e \verb|D| un dominio. Quindi, una Funzione di Interpretazione di un linguaggio assertivo $\mathcal{I}_A$ è definita come:
+
+    \begin{equation}
+        \mathcal{I}_A : \mathcal{L}_A \rightarrow \verb|D| \quad (\mathcal{I}_A \subseteq \mathcal{L}_A \times \verb|D|)
+    \end{equation}
+
+\end{mydefinition}
+
+Vedi 3.3 (ripetizione) ... Andiamo avanti
+
+\section{Modello del mondo}
+Il viaggio è completo. Dobbiamo soltanto mettere tutto insieme.
+
+\begin{myobservation}[(I ruoli di D,\(\mathcal{L}, \mathcal{I}_A, M, \mathcal{T}_A\))]
+    Le definizioni fornite nelle sezioni precedenti possono essere riassunte dalla seguente figura.
+    \begin{equation}
+        \includegraphics[height=15ex]{imgs/eq5.6.png}
+    \end{equation}
+
+\end{myobservation}
+
+Nell'Equazione (5.7), \verb|D| definisce l'insieme di fatti $f$ di potenziale interesse, \verb|M| l'insieme di fatti su cui ci stiamo concentrando, $\mathcal{L}_A$  l'insieme di affermazioni $a$ di potenziale interesse e, infine, $\mathcal{T}_A$ è la teoria che descrive \verb|M|. In altre parole, come singole affermazioni $a$ descrivono singoli fatti f da un lato, e come gli insiemi complessivi di affermazioni $\mathcal{L}_A$ descrivono \verb|D| dall'altro lato, definiscono l'ambito entro il quale una teoria assertiva $\mathcal{T}_A$ può concentrarsi per descrivere modelli specifici \verb|M|. Affermazioni, linguaggi e teorie sono semplicemente i mezzi per specificare il modello desiderato enunciando i fatti desiderati tra quelli consentiti dal dominio di riferimento.
+\begin{mydefinition}[(Modello del mondo)]
+    \begin{equation}
+        \hat{\mathcal{W}} = \langle \mathcal{L}_A, \verb|D|, \mathcal{I}_A \rangle 
+    \end{equation}
+    è un \textbf{modello del mondo}
+\end{mydefinition}
+
+\begin{myobservation}[(Modello del mondo)]
+    Nell'Equazione (5.7), i componenti di un modello del mondo, cioè $\mathcal{L}_A, \verb|D|, \mathcal{I}_A$ definiscono le regole generali che vengono seguite durante la costruzione di una rappresentazione. Sono definiti a priori, di solito da esperti di modellizzazione e rappresentazione della conoscenza, come strumenti generali da utilizzare da parte degli operatori. Forniscono l'infrastruttura generale di modellazione che consente di rappresentare problemi del mondo reale. Forniscono anche un quadro uniforme con il quale è possibile confrontare e, eventualmente, anche unire due rappresentazioni. Gli sviluppatori di software di solito studiano questi modelli durante alcuni corsi di informatica o intelligenza artificiale e li utilizzano così come sono nello sviluppo di sistemi; si pensi, ad esempio, all'ampio utilizzo dei modelli ER (Entity-Relationship).
+\end{myobservation}
+
+\begin{myobservation}[(Dalle rappresentazioni mentali ai modelli del mondo)]
+    I modelli del mondo sono spazi di rappresentazioni possibili, cioè teorie, progettati per minimizzare la possibilità di diverse rappresentazioni mentali della stessa teoria e del corrispondente modello che raffigura il mondo.
+\end{myobservation}
+
+I modelli del mondo forniscono il quadro generale entro il quale le teorie assertive e i modelli possono essere definiti e confrontati.
+
+\begin{myobservation}[(Teoria e modello)]
+    Ricorda che, dato un modello di un mondo $\hat{\mathcal{W}} = \langle \mathcal{L}_A, \verb|D|, \mathcal{I}_A \rangle$, abbiamo che $\verb|M| = \verb|{F}| \subseteq \verb|D|$ (equazione 5.1) e $\mathcal{T}_A = \{a\} \subseteq \mathcal{L}_A$ (equzione 5.3)
+\end{myobservation}
+
+\begin{myobservation}[(Definire un modello attraverso una teoria)]
+    Il modo più comune per modellare il mondo è definire un insieme di affermazioni, ciò che chiamiamo una teoria. In altre parole, costruiamo un modello \verb|M| selezionando qualsiasi sottoinsieme $\mathcal{T}_A$ di $\mathcal{L}_A$. Questo è l'approccio comune quando il compito è rappresentare da zero una parte data del mondo che è di interesse.
+\end{myobservation}
+
+Tuttavia, a volte, viene fornita una teoria predefinita $\mathcal{T}_A$ e un modello predefinito \verb|M| e si chiede come sono correlati. In tal caso, abbiamo quanto segue.
+
+\begin{mydefinition}[Correttezza e completezza di una teoria assertiva \(\mathcal{T}_A\) rispetto a un modello M]
+    Sia $\hat{\mathcal{W}} = \langle \mathcal{L}_A, \verb|D|, \mathcal{I}_A \rangle$ il modello di un mondo. Siano $\mathcal{T}_A \subseteq \mathcal{L}_A$ e \verb|M| $\subseteq$ \verb|D| rispettivamente una teoria assertiva e un modello. Allora abbiamo due situazioni possibili, come segue:
+    \begin{itemize}
+        \item \textbf{Correttezza}. Sia $a$ $\in$ $\mathcal{L}_A$ un'asserzione. Se per tutte le $a$, se $a \in \mathcal{T}_A$ allora $\mathcal{I}_A(a) = \verb|f| \in \verb|M|$ diciamo che $\mathcal{T}_A$ è corretta rispetto a \verb|M|, o che \verb|M| è un modello per \textit{AL}.
+        \item \textbf{Completezza}. Sia $\verb|f| \in \verb|M|$ un fatto. Se, per ogni \verb|f|, se $\verb|f| \in \verb|M|$ allora esiste un'asserzione $a \in \mathcal{T}_A$ tale che $\mathcal{I}_A(a) = \verb|f|$ diciamo che $\mathcal{T}_A$ è completa rispetto a \verb|M|.
+      \end{itemize}
+
+    Le nozioni di \textbf{scorrettezza} e \textbf{incompletezza} sono definite in modo ovvio.
+\end{mydefinition}
+
+\begin{myobservation}[(Correttezza e completezza di una teoria assertiva \(\mathcal{T}_A\) rispetto a un modello M)]
+    Una teoria assertiva potrebbe non essere completa, ovvero potrebbero esistere fatti nel dominio per i quali non contiene affermazioni. Descrizioni incomplete dei modelli sono la norma, a causa dell'ignoranza o anche per mancanza di interesse. Tuttavia, una teoria $\mathcal{T}_A$ deve contenere solo affermazioni riguardanti i fatti in \verb|M| per \verb|M| appartenente a $\mathcal{T}_A$. Questo al fine di evitare informazioni errate. Notare come questo requisito sia opposto a quello su linguaggi e domini come indicato nell'Osservazione 5.5.
+\end{myobservation}
+
+\begin{myexample}[(Correttezza e completezza di una teoria assertiva \(\mathcal{T}_A\) rispetto a un modello M)]
+    Considera l'Esempio 3.4. Una teoria assertiva $\mathcal{T}_A$ che contiene tutte e solo le affermazioni del dominio della funzione di interpretazione nell'Esempio 3.4 è corretta e completa rispetto al modello \verb|M| che contiene tutti e solo i fatti che sono nel dominio della stessa funzione di interpretazione. Qualsiasi teoria assertiva che è un sottoinsieme di $\mathcal{T}_A$ è corretta rispetto a \verb|M|. \verb|M| non è un modello di alcun superset di $\mathcal{T}_A$.
+\end{myexample}
 
 
+\chapter{Modello del Mondo - Rappresentazione Intenzionale}
+
+I modelli del mondo ci permettono di sfruttare fatti e affermazioni su di essi come i principali componenti necessari per costruire una rappresentazione del mondo, da utilizzare successivamente per risolvere problemi.
+
+\begin{myobservation}[(Modello del mondo, rappresentazione estensionale)]
+    I modelli del mondo, come dalla Definizione 5.6, sono rappresentazioni estensionali del mondo, ovvero sono definite come insiemi di affermazioni $a$ e fatti $\verb|f|$, oltre a una funzione di interpretazione $\mathcal{I}_A$ che consente di definire quali affermazioni denotano quali fatti in uno o più modelli di riferimento.
+\end{myobservation}
+
+Ma cosa si intende per "fatto"? Come costruiamo affermazioni sui fatti? La risposta a questa domanda richiede la definizione di una rappresentazione intenzionale dei modelli del mondo, ovvero i meccanismi di rappresentazione che consentono di costruire affermazioni e fatti a partire da un insieme finito di elementi componenti primitivi. In seguito, ogni volta che è necessario per evitare confusione, adottiamo la seguente notazione e terminologia.
+
+\begin{mynotation}[(Rappresentazione estensionale e intenzionale di un insieme)]
+    Sia $\mathcal{S}$ un insieme. Allora con:
+    \begin{itemize}
+        \item $\mathcal{S}^e$ intendiamo la rappresentazione estensionale di $\mathcal{S}$, ovvero come un insieme di elementi (ad esempio, fatti, affermazioni, ma non solo);
+        \item $\mathcal{S}^i$ intendiamo la rappresentazione intenzionale di $\mathcal{S}$, in cui gli elementi di $\mathcal{S}^e$ sono definiti intenzionalmente, a partire da un insieme di componenti primitivi. 
+    \end{itemize}
+    Gli apici vengono omessi quando non sorgono confusioni.
+\end{mynotation}
+    
+\section{Dominio}
+L'Esempio 3.1, l'Osservazione 3.1 e anche l'Osservazione 3.5 forniscono indicazioni su come costruire una rappresentazione intenzionale dei fatti.
+
+\begin{myintuition}[(Dominio, rappresentazione intenzionale)]
+    La rappresentazione intenzionale di un dominio è composta da tre componenti, come segue:
+    \begin{itemize}
+        \item \textit{entità}, associate agli elementi della rappresentazione che possono essere isolati e distinti dal resto;
+        \item \textit{classi} (insiemi) di entità, caratterizzate dal fatto di avere alcune caratteristiche comuni non condivise dalle entità degli altri insiemi;
+        \item \textit{relazioni} tra entità, che raccolgono più entità che condividono una proprietà comune.
+    \end{itemize}
+\end{myintuition}
+
+\begin{mydefinition}[(Dominio, rappresentazione intenzionale)]
+    La rappresentazione intenzionale $\verb|D|^i$ di un dominio $\verb|D|$ è definita come:
+\end{mydefinition}
 
 \end{document}
