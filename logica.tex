@@ -72,6 +72,14 @@
 }
 
 
+\newcounter{myexercise}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themyexercise}{\arabic{chapter}.\arabic{myexercise}}  % Formato del contatore
+
+\newenvironment{myexercise}[1][]{
+  \refstepcounter{myexercise}
+  \par\medskip\noindent\textbf{Esercizio \themyexercise\quad #1} \ignorespaces
+}{  \par\medskip
+}
 
 \newcounter{myimage}[chapter]
 \renewcommand{\themyimage}{\thechapter.\arabic{myimage}}
@@ -578,6 +586,238 @@ L'Esempio 3.1, l'Osservazione 3.1 e anche l'Osservazione 3.5 forniscono indicazi
 
 \begin{mydefinition}[(Dominio, rappresentazione intenzionale)]
     La rappresentazione intenzionale $\verb|D|^i$ di un dominio $\verb|D|$ è definita come:
+
+    \begin{equation}
+        \verb|D|^i = \langle E, \{C\}, \{R\} \rangle 
+    \end{equation}
+
+    con
+
+    \begin{gather}
+        \nonumber E = \{e\}\\
+        \nonumber C \subseteq E\\
+        \nonumber R \subseteq E \times \dots \times E \textnormal{ n times}
+    \end{gather}
+
+    dove $E = \{e\}$ è un set di \textbf{identità}, $\{C\}$ è un set di \textbf{classi} di identità, $\{R\}$ p un insieme di relazione $n$-arie $R^n$ per qualche $n$. $E$ viene chiamato l'universo di $D^i$ o anche \textbf{l'universo dell'interpretazione}.
+
 \end{mydefinition}
+
+TODO: continuare e finire il capitolo, ma al momenteo non trovo utilità. Vado avanti ai grafi di conoscenza
+
+\chapter{Grafi di conoscenza - rappresentare il mondo come un grafo}
+
+Rappresentiamo i modelli del mondo \( \hat{W} = \langle L_A, D, I_A \rangle \) come modelli di knowledge graph formalmente rappresentati come \( \mathcal{\hat{KG}} = \langle L_{KG}, D, I_{KG} \rangle \), ossia come tipi speciali di grafi con etichette in cui ogni tripla \( \langle \text{nodo, arco, nodo} \rangle \) \( \in L_{KG} \) è un'affermazione \( a \) \( \in L_{KG} \) che descrive un fatto \( f \) \( \in D \), con \( f = I_{KG}(a) \). Chiamiamo le teorie in \( L_{KG} \) knowledge graphs e utilizziamo la notazione \( KG \subseteq L_{KG} \). Analogamente ai modelli del mondo, distinguiamo tra i modelli \( \mathcal{\hat{KG}} \) che rappresentano dati, conoscenza o informazioni miste.
+
+\begin{mydefinition}[(Entità, etipo e mixed \( \mathcal{\hat{KG}} \)):]
+
+    \begin{itemize}
+        \item Un \( \mathcal{\hat{KG}} \) che è un modello di mondo dei dati è chiamato \textit{entity graph model} ($ \mathcal{\hat{EG}} $).
+        \item Un \( \mathcal{\hat{KG}} \) che è un modello di mondo della conoscenza è chiamato \textit{etype graph model} ($ \mathcal{\hat{ETG}} $).
+        \item Un \( \mathcal{\hat{KG}} \) che è un modello di mondo misto è chiamato \textit{etype entity graph model} ($ \mathcal{ \hat{EEG}} $).
+    \end{itemize}
+
+    Questa terminologia si estende in modo ovvio a tutti i componenti di \( \mathcal{\hat{KG}} \), così come a tutti i \( \mathcal{\hat{KG}} \) e modelli correlati definiti all'interno di un \( \mathcal{\hat{KG}} \).
+
+\end{mydefinition}
+
+\section{Dominio}
+
+Sia $\verb|KG = D|^i = \langle E, \{C\} \{R\} \rangle $ lo stencil di un dominio $KG$. Definiamo i suoi componenti.
+
+\begin{mydefinition}[(L'Universo di Interpretazione E di un KG)]
+    L'Universo di Interpretazione E di un KG è definito come
+    \begin{equation}
+        \verb|E = ET| \cup \verb|DT|
+    \end{equation}
+
+    con $\verb|ET| \cap \verb|DT| = \emptyset$, dove $\verb|ET = |\{\verb|E|_\textnormal{T}\}$ con $\verb|E|_\textnormal{T} = \{\verb|e|\}$, e $\verb|DT| = \{\verb|D|_\textnormal{T}\}$ con $\verb|D|_\textnormal{T} = \{\verb|v|\}$ \\
+    $\verb|E|_\textnormal{T}$ è un \textbf{entity type} (\textbf{etype}) è $\verb|D|_\textnormal{T}$ è un \textbf{datatype} (\textbf{dtype}). Gli elementi degli etype sono chiamati entità, quelli dei dtipi sono chiamati valori (dati).
+\end{mydefinition}
+
+\begin{myobservation}[(Etype, dtype)]
+    In un KG, \(E\) è strutturato in un insieme di sotto-universi, cioè etipi e dtipi. In astratto, ciascun sotto-universo è simile a una classe \(C \in \{C\}\), ovvero un sottoinsieme di \(E\). La differenza fondamentale è che etipi e dtipi sono tipi che, come nei linguaggi di programmazione, vengono definiti quando si definisce LKG e sono quindi indipendenti dall'applicazione. In quanto tali, questi tipi sono dotati di determinate proprietà e operatori di tipo incorporati, in particolare: un insieme di costruttori che consentono di creare gli elementi di un tipo, un riconoscitore in grado di determinare se un certo elemento appartiene a un certo tipo e una relazione di equivalenza che consente di decidere se due elementi di quel tipo sono uguali.
+\end{myobservation}
+
+\begin{myexample}[(Etype)]
+    Un esempio di etipo è: \verb|Location|, in cui intuitivamente una \verb|location| è un etipo che contiene spazialmente altre entità. Le locations di solito non cambiano la loro posizione rispetto ai loro sistemi di riferimento delle coordinate. Le loro coordinate spaziali sono quindi un importante indicatore per decidere se due locations (ossia due entità che appartengono all'etipo \verb|Location|) sono effettivamente la stessa location. Ci sono molti etipi che sono casi speciali (sottoetipi) di Location, ad esempio: \verb|Mountain|, \verb|City|, \verb|Street|, \verb|Home| e molti altri. Altri etipi importanti sono: Entity, il più generale etipo, quello che contiene tutti gli elementi in ET (la sua proprietà più evidente è che ha un nome, implementando così il requisito che tutte le entità devono avere un nome); \verb|Event|, le cui proprietà più caratterizzanti sono i tempi di inizio e di fine, \verb|Person|, le cui proprietà più caratterizzanti sono il nome, la data di nascita e i genitori; e molti altri.
+\end{myexample}
+
+\begin{myobservation}[(Dtype)]
+    
+\end{myobservation}
+I dtipi hanno le stesse proprietà degli etipi, ma ne aggiungono altre due:
+\begin{itemize}
+    \item l'insieme dei loro membri, cioè dei loro valori, è predefinito 
+    \item i nomi dei valori sono gli stessi dei valori stessi (cioè i valori dei dati si denotano da soli, quindi, ad esempio, il numero (propriamente chiamato numero) 3,14 è il nome del numero 3,14).
+\end{itemize}
+
+\begin{myexample}[(Dtype)]
+    La seguente è una lista non esaustiva di tipi di dati:
+    \begin{verbatim}
+        Dtype, Float, Integer, Boolean, String, SpaceTime, Identifier
+    \end{verbatim}
+    dove \verb|Float, Integer, Boolean, String| definiscono rispettivamente lo spazio dei numeri reali, degli interi, dei valori booleani e delle stringhe. SpaceTime è l'insieme di valori utilizzati per descrivere spazio e tempo. Pertanto, i sotto-tipi di SpaceTime includono GeoCoordinate, Distance, XYCoordinate ma anche Date, Time, DateTime e così via. Dtype è l'insieme di tutti i valori dei dati.
+\end{myexample}
+
+\begin{myobservation}[(Set di classi {C} di un KG)]
+    Le classi di KG sono classi di modelli del mondo "così come sono", vedere la Definizione 6.1.
+\end{myobservation}
+
+\begin{mydefinition}[(Le relazioni binarie tra oggetti e dati {R} di un KG.)]
+    L'insieme di relazioni \{R\} = \{OR\} $\cup$ \{DR\} è un insieme di relazioni binarie di un KG tale che
+    \begin{equation}
+        \verb|R| \subseteq \verb|E|_{\textnormal{T}_s} \times \{\verb|E|_{\textnormal{T}_T} \cup \verb|D|_{\textnormal{T}_t}\}
+    \end{equation}
+    con $\verb|ET|_s$, $\verb|ET|_t$ $\in$ $\verb|ET|$ e $\verb|DT|_t$ $\in$ $\verb|DT|$. Se R è definito come:
+    \begin{equation}
+        \verb|R| \subseteq \verb|E|_{E_t} \times \verb|E|_{E_t} 
+    \end{equation}
+
+    allora diciamo che R è una relazione oggetto binaria $\verb|OR| \in \{\verb|OR|\}$. Se R è definito come:
+
+    \begin{equation}
+        \verb|R| \subseteq \verb|E|_{tT} \times \verb|D|_{T_t}
+    \end{equation}
+
+    allora diciamo che R è una relazione dati binaria $\verb|DR| \in \{\verb|DR|\}$.
+\end{mydefinition}
+
+\begin{myobservation}[(Arità di una relazione R)]
+    In un KG ci sono solo relazioni binarie, ciò consente l'uso di grafi con archi di ingresso e uscita singoli. La rappresentazione di un modello del mondo con archi più complessi richiede la sua riformulazione per consentire solo archi uno-a-uno.
+\end{myobservation}
+
+\begin{myobservation}[(Argomenti di una relazione R)]
+    Diversamente dalla Definizione 6.1, le relazioni prendono come argomenti etipi e dtipi. Vedere l'Osservazione 7.1 per una spiegazione. Successivamente vedremo come reintrodurre relazioni che prendono come argomenti concetti definiti dall'utente.
+\end{myobservation}
+
+\begin{myobservation}[(Relazione tra oggetti)]
+    Le relazioni tra oggetti sono relazioni tra entità, rappresentando quindi come le entità interagiscono. Pertanto, ad esempio, alcuni esempi sono:
+
+    $\verb|Near(Person, Tree), HasFather(Person, Person), TalksTo(Person, Dog)|$.
+    Si noti che $\verb|Person, Tree, Person, Dog|$ sono etipi, piuttosto che concetti.
+\end{myobservation}
+
+\begin{myobservation}[(Relazione dati)]
+    Le relazioni dati rappresentano le proprietà delle entità come tali, indipendentemente dalle loro interazioni con altre entità. Ad esempio, alcuni esempi sono: 
+
+    $\verb|Height(Person, Float), HasName(Person, String), HasId(Entity, Identifier)|$.
+    Si noti che $\verb|Float, String, Identifier|$ sono dtipi, piuttosto che concetti, come era il caso nella Sezione 5.
+\end{myobservation}
+
+\begin{myobservation}[(Relazione, cardinalità)]
+    La cardinalità di una relazione può essere: 1-a-1, 1-a-$n$, $m$-a-$n$ (dove uno tra $m$ o $n$ può anche essere 0, il che significa che possono esistere entità che non appartengono a nessuna relazione).
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.7\linewidth]{imgs/img7.1.png}
+        \caption{diagramma di Venn di un EG}
+    \end{figure}
+\end{myobservation}
+
+\begin{myexample}[(Dominio in un \(\hat{\mathcal{EG}}\), Diagramma di Venn)]
+    Rappresentiamo i domini degli EG come nella Figura 7.1. Le relazioni sono rappresentate come collegamenti tra entità dell'etipo appropriato e entità o valori dell'etipo o del dtipo appropriato, rispettivamente.
+\end{myexample}
+
+\begin{myexample}[(Dominio in \(\hat{\mathcal{ETG}}\), Diagramma di Venn)]
+    Rappresentiamo i domini degli ETG come nella Figura 7.1. Le relazioni sono rappresentate come collegamenti tra etipi ed etipi/dtipi.
+\end{myexample}
+
+\clearpage
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{imgs/img7.2.png}
+    \caption{diagramma di Venn di un ETG}
+\end{figure}
+
+\section{Linguaggio assertivo}
+
+Sia $\mathcal{L}^i_{\mathcal{KG}} = \mathcal{L}^i_{\mathcal{A}} = \langle \mathcal{E}, \{\mathcal{C}\} \{\mathcal{P}\} \rangle$ lo stencil del $\hat{\mathcal{KG}}$ linguaggio $L^i_{\mathcal{KG}}$. La definizione di $L^i_{\mathcal{KG}}$ segue direttamente dalla definizione di $\verb|D|^i$ nella Sezione 7.1.
+
+\begin{mydefinition}[(Concetto)]
+    Abbiamo
+    \begin{equation}
+        \{\mathcal{C}\} = \mathcal{ET} \cup \mathcal{DT}
+    \end{equation}
+
+    dove $\mathcal{ET} = \{\mathcal{E}_\mathcal{T}\}$ e $\mathcal{DT} = \mathcal{D}_\mathcal{T}$ sono rispettivamente (nomi dei) \textbf{etipi} e \textbf{dtipi} in $\hat{\mathcal{KG}}$
+\end{mydefinition}
+
+\begin{mydefinition}[(Proprietà degli oggetti e dei dati)]
+    \begin{equation}
+        \{\mathcal{P}\} = \{\mathcal{OP}\} \cup \{\mathcal{DP}\}
+    \end{equation}
+    dove $\{\mathcal{OP}\}$ e $\{\mathcal{DP}\}$ sono definiti come segue:
+    
+    \begin{equation}
+        \begin{aligned}
+            \{\mathcal{OP}\} \subseteq \{\mathcal{E_T}\} \times \{\mathcal{E_T}\} \\
+            \{\mathcal{OP}\} \subseteq \{\mathcal{E_T}\} \times \{\mathcal{E_T}\}
+        \end{aligned}
+    \end{equation}
+
+    Gli elementi di $\{\mathcal{OP}\}$ sono chiamati proprietà degli oggetti, quelli di $\{\mathcal{DP}\}$ proprietà dei dati.
+\end{mydefinition}
+
+\begin{myexample}[(\(\mathcal{EG}\))]
+    L'$\mathcal{EG}$ di questo esempio rappresenta il dominio descritto nell'Esempio 7.3. La chiave dell'osservazione sta nel fatto che il numero di nodi corrisponde al numero di entità e valori, mentre il numero di archi corrisponde ai valori di proprietà istanziate. Si noti come i vincoli di cardinalità $n$-a-$m$ consentano agli archi etichettati con la stessa proprietà di uscire dallo stesso nodo di etipi. Si noti anche come i nodi di dati siano e possano essere solo nodi foglia.
+\end{myexample}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{imgs/img7.3.png}
+    \caption{Esempio di un EG che rappresenta informazioni riguardo agli esseri umani.}
+\end{figure}
+
+
+\begin{myexample}[\(\mathcal{ETG}\)]
+    L'$\mathcal{ETG}$ di questo esempio rappresenta il dominio descritto nell'Esempio 7.4. C'è un nodo per etipo e tipo di dati. L'$\mathcal{ETG}$ codifica alcune meta-informazioni, ad esempio i vincoli di cardinalità, che possono guidare e controllare la creazione dell'$\mathcal{EG}$ a partire da un $\mathcal{ETG}$. In modo simile agli $\mathcal{EG}$, i nodi dei dtipi sono nodi foglia.
+\end{myexample}
+
+\clearpage
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{imgs/img7.4.png}
+    \caption{Esempio di un ETG che rappresenta informazioni riguardo agli esseri umani.}
+\end{figure}
+
+
+\begin{myobservation}[(\(\hat{\mathcal{EG}} , \hat{\mathcal{ETG}}, \hat{\mathcal{EEG}} \))]
+    Nelle affermazioni di $\hat{\mathcal{KG}}$, le triple sono < nodo, arco, nodo > $\in \mathcal{L}_A$. Nei nodi di $\hat{\mathcal{KG}}$, i nodi $\hat{\mathcal{EG}}$ rappresentano o entità con il loro etipo o valori con il loro dtype. Nei nodi di $\hat{\mathcal{ETG}}$, i nodi rappresentano etipi. Nei nodi di $\hat{\mathcal{EEG}}$, ci sono entrambi i tipi di nodi. Gli archi sono etichettati con nomi di proprietà e rappresentano relazioni. Gli archi da etipi/entità a etipi/entità rappresentano relazioni tra oggetti. Gli archi da etipi/entità a dtipi/valori rappresentano relazioni tra dati.
+\end{myobservation}
+
+\section{Funzione di interpretazione}
+La funzione di interpretazione di un $\hat{\mathcal{KG}}$ è una mappatura diretta dal linguaggio assertivo $\mathcal{L}^i_{\mathcal{KG}}$ al dominio di interpretazione di destinazione $\verb|D|$. Come si può vedere dagli esempi nella Sezione 7.1 e nella Sezione 7.2, esiste una mappatura quasi diretta tra il linguaggio e il dominio di interpretazione. In pratica, ciò significa che una volta che è stata chiarita la denotazione degli elementi del singolo linguaggio di $\mathcal{L}_{\mathcal{KG}}$ e ci si è assicurati che la funzione di interpretazione soddisfi tutti i requisiti (vedi Sezione 6.4), il significato previsto di un $\mathcal{KG}$ può essere letto direttamente dal $\mathcal{KG}$ stesso.
+
+\section{Grafo di conoscenza}
+I modelli di grafo della conoscenza del mondo $\hat{\mathcal{KG}} = \langle \mathcal{L}^i_{\mathcal{KG}}, \verb|D|^i, \mathcal{I}^i_{KG}\rangle $ sono una rappresentazione universale, intuitiva, autoesplicativa ed efficiente dal punto di vista computazionale del mondo.
+Una volta fornito un $\hat{\mathcal{KG}}$, è sufficiente per costruire il proprio $\mathcal{KG}$  preferito e tutte le operazioni descritte nella Sezione 6.5 sono disponibili.
+
+\begin{myobservation}[(Tipi di grafi di conoscenza)]
+    Come discusso anche nell'Osservazione 6.3, i modelli del mondo e i grafi di conoscenza introdotti finora hanno un'espressività minima. In pratica, i grafi di conoscenza sono spesso arricchiti con ulteriori costruttori che consentono la descrizione di fatti più complessi. Questa è un'operazione del tutto valida con l'avvertenza che è necessario fare attenzione nella selezione del giusto compromesso tra complessità, intuitività e complessità computazionale della rappresentazione selezionata.
+\end{myobservation}
+
+\begin{myobservation}[(Dai grafi di conoscenza alla logica)]
+    I $\mathcal{KG}$ consentono una facile incorporazione nella logica più appropriata con l'obiettivo di consentire il ragionamento su di essi. Questo sarà l'argomento delle sezioni successive.
+\end{myobservation}
+
+\section{Esercizi}
+
+\begin{myexercise}[(Crea un diagramma di insiemi)]
+    Considera questa mappa della metropolitana di Milano:
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.7\linewidth]{imgs/img7.5.png}
+        \caption{Mappa della metropolitana di Milano}
+    \end{figure}
+
+    Cosa deve essere fatto:
+    \begin{itemize}
+        \item Estrarre insiemi rilevanti di oggetti: Linee, Stazioni, Incroci, Terminali, Numero di stazioni, Colori, ...
+        \item Istanziare elementi del dominio: Linea rossa, Cadorna, RHO fiera, Milano, Giallo
+        \item Estrarre relazioni rilevanti: haColore, appartieneA, faParteDi, vicinoA, ...
+    \end{itemize}
+\end{myexercise}
+
+\chapter{Rappresentazione estensionale della logica}
 
 \end{document}
