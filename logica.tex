@@ -1,7 +1,7 @@
 \documentclass{report}
 \usepackage{etoolbox}
 \usepackage{graphicx}
-\usepackage{amsmath}
+\usepackage{amsmath, mathtools}
 \usepackage{ragged2e}  % Pacchetto per l'allineamento del testo
 \usepackage{color}   %May be necessary if you want to color links
 \usepackage{hyperref}
@@ -78,6 +78,16 @@
 \newenvironment{myexercise}[1][]{
   \refstepcounter{myexercise}
   \par\medskip\noindent\textbf{Esercizio \themyexercise\quad #1} \ignorespaces
+}{  \par\medskip
+}
+
+
+\newcounter{myterminology}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themyterminology}{\arabic{chapter}.\arabic{myterminology}}  % Formato del contatore
+
+\newenvironment{myterminology}[1][]{
+  \refstepcounter{myterminology}
+  \par\medskip\noindent\textbf{Terminologia \themyterminology\quad #1} \ignorespaces
 }{  \par\medskip
 }
 
@@ -603,7 +613,305 @@ L'Esempio 3.1, l'Osservazione 3.1 e anche l'Osservazione 3.5 forniscono indicazi
 
 \end{mydefinition}
 
-TODO: continuare e finire il capitolo, ma al momenteo non trovo utilità. Vado avanti ai grafi di conoscenza
+\begin{mydefinition}[(Fatto, rappresentazione intensionale)]
+    La rappresentazione intensionale di un fatto \(\verb|f|\) assume una delle quattro seguenti forme.
+    \begin{equation}
+        \begin{aligned}
+            \mathrlap{\texttt{e}} \hphantom{\langle \texttt{e}_1, \dots, \texttt{e}_n \rangle} &\in \verb|C| \\
+            \mathrlap{\langle \texttt{e}_1, \dots, \texttt{e}_n \rangle} \hphantom{\langle \texttt{e}_1, \dots, \texttt{e}_n \rangle} &\in \verb|R| \\
+            \mathrlap{\texttt{C}} \hphantom{\langle \texttt{e}_1, \dots, \texttt{e}_n \rangle} &\subseteq \verb|E| \\
+            \mathrlap{\texttt{R}^n} \hphantom{\langle \texttt{e}_1, \dots, \texttt{e}_n \rangle} &\subseteq \verb|C|_1 \times \dots \times \verb|C|_n
+         \end{aligned}
+    \end{equation}
+    con $\verb|e, e|_i \in \verb |E|$ e $\verb|C, C|_i \subseteq \verb|E|$.
+\end{mydefinition}
+
+\begin{myobservation}[(Fatto, rappresentazione intensionale)]
+    L'intuizione dietro la Definizione 6.2 è la seguente. $e \in C$ significa che una certa entità $e$ appartiene a una certa classe $C$, come nel caso dell'affermazione che Sofia è una persona. $<e_1, \ldots, e_n> \in R$ significa che $n$ entità si trovano in una certa relazione, come nel caso dell'affermazione che Paolo si trova tra Sofia e Stefania. $C \subseteq E$ significa che $C$, ad esempio "persona", è una classe. $R_n \subseteq C_1 \times \ldots \times C_n$ significa che una relazione si applica solo a classi specifiche, come nel caso dell'affermazione che le persone sono amiche degli animali.
+\end{myobservation}
+
+\begin{myobservation}[(Complessità dei fatti)]
+    Si potrebbe pensare a fatti più sofisticati, ad esempio il fatto $C_1 \subseteq C_2$. Ciò è naturalmente possibile, a costo di complicare il linguaggio assertivo, con un limite superiore nell'intuitività del modello di mondo risultante. Qui stiamo definendo il modello di mondo più semplice possibile. Tuttavia, i linguaggi di rappresentazione e le logiche possono comunque essere utilizzati per aumentare l'espressività del linguaggio di rappresentazione.
+\end{myobservation}
+
+\begin{myexample}[(Fatto, rappresentazione intensionale ed estensionale)]
+    Consideriamo l'Esempio 5.1. Il fatto che Sofia sia una persona è costruito prendendo l'entità Sofia e affermando che essa è una persona. Il fatto che Sofia sia vicina a Paolo è costruito affermando che le entità Sofia e Paolo stanno in una relazione in cui una è vicina all'altra.
+\end{myexample}
+
+\begin{mydefinition}[(Dominio, rappresentazione estensionale)]
+    La rappresentazione estensionale $D_e$ di un dominio $D$, la cui rappresentazione intensionale $D_i$ è come da Definizione 6.1, è $D_e = \{f\}$ con $f$ come da Definizione 6.2.
+\end{mydefinition}
+
+\begin{myobservation}[(Entità)]
+    Ma cosa si intende per entità? L'idea generale è che un'entità è qualcosa che può essere percepito e quindi rappresentato in una rappresentazione analogica di (una parte del) mondo. È un'entità un oggetto specifico? O una persona? O un animale? Sì, ma anche qualsiasi cosa che avvenga nel tempo, ad esempio un evento o un processo. Si assume che le entità abbiano nomi. Esempi di (nomi di) entità: Federico, Pussy, Garfield, Trento, l'ultimo Campionato del Mondo di calcio, e così via.
+\end{myobservation}
+
+\begin{myintuition}[(Entità)]
+    Un'entità è qualsiasi cosa che può essere rappresentata in una rappresentazione (analogica o linguistica) del mondo e che ha un nome. Un'entità può essere rappresentata nella rappresentazione mentale del mondo ogni volta che è percepita o il suo nome è udito da un essere umano.
+\end{myintuition}
+
+\begin{myintuition}[(Nome)]
+    Un nome è una stringa, scritta in qualche lingua, che consente di fare riferimento alle entità nelle rappresentazioni e, più specificamente, nei modelli di mondo.
+\end{myintuition}
+
+\begin{myintuition}[(Entità nominata)] 
+    Il vigneto di fronte a me non è un'entità (per me). Anche se posso vederlo chiaramente, non ho un nome che posso usare per fare riferimento ad esso, ad esempio quando parlo con gli altri. Per essere considerate entità, devono essere entità nominate.
+\end{myintuition}
+
+\begin{myobservation}[(Dominio, rappresentazione intensionale)] 
+    Modelliamo intenzionalmente il mondo intorno a noi in termini di entità. Le entità, a loro volta, sono raggruppate in classi specifiche, in base a determinate loro proprietà. Quindi abbiamo, ad esempio, le classi: umano, persona, donna, animale, cane, macchina, penna, computer, e così via. Le entità possono essere messe in relazione tra loro in base alla loro classe. Ad esempio: gli esseri umani sono amici degli esseri umani, o degli animali, mangiano cibo, una macchina è vicina a un semaforo e così via.
+\end{myobservation}
+
+\begin{myobservation}[(Dominio, parzialità)]
+     Un dominio non deve contenere tutti e cinque i tipi di fatti elencati nella Definizione 6.2. La selezione dei fatti da includere dipende da ciò che si sta modellando. Grossolanamente, i domini possono essere suddivisi in due tipi. Il primo è il dominio dei dati, così chiamato perché descrive ciò che è percepibile e coinvolge i primi due tipi di fatti nella Definizione 6.2. Il secondo tipo è il dominio della conoscenza, così chiamato perché si concentra su affermazioni generali, non direttamente percebili, e descrive relazioni generali tra classi e relazioni. I domini della conoscenza coinvolgono gli ultimi tre tipi di affermazioni. Esistono anche quelli che qui chiamiamo domini misti, ovvero domini che coinvolgono tutti i tipi di fatti. I domini misti sono molto utili nella comunicazione, ad esempio nella comunicazione in linguaggio naturale tra le persone, poiché consentono di esprimere uniformemente la conoscenza sulle entità, le classi e le relazioni.
+\end{myobservation}
+
+\begin{mydefinition}[(Dominio, dati, conoscenza, misto)]
+    Un dominio dei dati contiene solo fatti della forma $e \in C$ e $<e_1, \ldots, e_n> \in R$. Un dominio della conoscenza contiene solo fatti della forma $C_1 \subseteq E$ e $R_n \subseteq C_1 \times \ldots \times C_n$. Un dominio misto contiene tutti i tipi di fatti.
+\end{mydefinition}
+
+\begin{myexample}[(Dominio dei dati)]
+    Il dominio descritto nell'Esempio 5.1 è un dominio dei dati. Alcuni dei suoi fatti possono essere rappresentati intenzionalmente come segue:
+\begin{align*}
+\text{sofia} &\in \text{Person} \\
+<\text{rocky}, \text{paolo}> &\in \text{DogOf} \\
+\text{sofia} &\in \text{Woman} \\
+\text{paolo} &\in \text{Dog} \\
+<\text{paolo}, \text{rocky}> &\in \text{HasDog} \\
+\text{rocky} &\in \text{Dog} \\
+<\text{sofia}, \text{paolo}> &\in \text{Near} \\
+<\text{rocky}, \text{sofia}> &\in \text{DogOf} \\
+\text{paolo} &\in \text{Man} \\
+<\text{sofia}, \text{paolo}> &\in \text{FriendOf} \\
+<\text{paolo}, \text{sofia}, \text{stefania}> &\in \text{Between}
+\end{align*}
+Nella notazione, le entità sono scritte con le lettere iniziali in minuscolo, mentre nei concetti e nelle proprietà sono in maiuscolo.
+\end{myexample}
+
+\begin{myexample}[(Dominio della conoscenza)] Un dominio della conoscenza che descrive la conoscenza alla base del dominio dei dati nell'Esempio 5.1 è un dominio dei dati che potrebbe contenere, ad esempio, i seguenti fatti:
+\begin{align*}
+\text{Person} &\subseteq \text{Entity} \\
+\text{HasDog} &\subseteq \text{Person} \times \text{Dog} \\
+\text{Dog} &\subseteq \text{Entity} \\
+\text{DogOf} &\subseteq \text{Dog} \times \text{Person} \\
+\text{Animal} &\subseteq \text{Entity} \\
+\text{FriendOf2} &\subseteq \text{person} \times \text{person} \times \text{person} \\
+\text{Near} &\subseteq \text{Entity} \times \text{Entity} \\
+\text{FatherOf} &\subseteq \text{Person} \times \text{Person} \\
+\text{ChildOf} &\subseteq \text{Person} \times \text{Person}
+\end{align*}
+Dove "Entity" sta per $E$.
+\end{myexample}
+
+\begin{myexample}[(Dominio misto)]
+    Un esempio di dominio misto può essere creato unendo i domini dell'Esempio 6.2 e 6.3.
+\end{myexample}
+
+
+\section{Linguaggi assertivi}
+\begin{mydefinition}[(Linguaggio assertivo, rappresentazione intensionale)]
+    La rappresentazione intensionale $L_{iA}$ di un linguaggio assertivo $L_A$ è definita come
+    \begin{equation}
+        L_{A}^i = \langle E, \{C\}, \{P\} \rangle
+    \end{equation}
+    dove $E = \{e\}$ è un insieme di (nomi di) entità, $\{C\}$ è un insieme di concetti, dove un concetto è un nome di una classe, e $\{P\}$ è un insieme di proprietà, dove una proprietà è un nome di una relazione.
+\end{mydefinition}
+    
+\begin{mydefinition}[(Linguaggio assertivo, rappresentazione estensionale)]
+    La rappresentazione estensionale $L_{A}^e$ di un linguaggio assertivo $L_A$, la cui rappresentazione intensionale $L_{A}^i$ è come da Definizione 6.5, è $L_{A}^e = \{a\}$ con $a$ che ha una delle seguenti quattro forme.
+    \begin{equation}
+        \begin{aligned}
+            & C(e)\\
+            & \mathcal{P}_n(e_1, \dots, e_n)\\
+            & C\\
+            & \mathcal{P}_n(C_1, \dots, C_n)
+        \end{aligned}
+    \end{equation}
+    Dove: $C(e)$ dovrebbe essere letto come l'entità di nome $e$ appartenente alla classe di nome $C$, e $P(e_1, \ldots, e_n)$ come le entità di nome $e_1, \ldots, e_n$ coinvolte nella relazione di nome $P$.
+\end{mydefinition}
+
+\begin{myobservation}[(Sintassi astratta e concreta)]
+    Le affermazioni nella Definizione 6.6 devono essere lette come sintassi astratta, anziché sintassi concreta. Devono essere prese come segnaposti per molteplici modi di descrivere lo stesso fatto in diverse lingue assertive. Quindi, ad esempio, l'asserzione di sintassi astratta Person(Sofia) è la rappresentazione di sintassi astratta di molteplici rappresentazioni di sintassi concrete, come ad esempio Person(Sofia), Sofia è una persona, P(S), (Sofia)Person (notazione postfix) e, soprattutto, varie tipologie di notazioni grafiche (vedi sotto). Ciò che conferisce significato alle affermazioni è il loro significato inteso, come definito dalla funzione di interpretazione (vedi sotto). In concreto, la sintassi utilizzata nelle prime due affermazioni proviene dalla logica $\mathcal{LOE}$, mentre quella delle ultime tre proviene dalla logica $\mathcal{LOD}$.
+\end{myobservation}
+
+\begin{myterminology}[(Alfabeto)]
+    La rappresentazione intenzionale, come definita nella Definizione 6.6, $\mathcal{L}^i_A$, di un linguaggio, in questo caso $\mathcal{L}_A$, definito estensionalmente, in questo caso $\mathcal{L}^e_A$, è anche chiamata l'alfabeto (di quel linguaggio).
+\end{myterminology}
+
+\begin{myobservation}[(Alfabeto)]
+    Le affermazioni descrivono fatti. Il primo passo è associare a ciascun elemento del dominio un nome nell'alfabeto del linguaggio assertivo. Successivamente, le affermazioni vengono costruite compositamente seguendo come sono costruiti i fatti. Ciò crea una corrispondenza uno-a-uno tra i fatti e le affermazioni, che suggerisce immediatamente il fatto descritto da un'affermazione.
+\end{myobservation}
+
+\begin{myobservation}[(Linguaggio assertivo, parzialità)]
+    L'Osservazione 6.6 si estende in modo ovvio ai linguaggi assertivi.
+\end{myobservation}
+
+\begin{mydefinition}[(Linguaggio assertivo, dati, conoscenza, misto)]
+    Un linguaggio assertivo di dati contiene solo affermazioni della forma $C(e)$ e $P(e1, \ldots, en)$. Un linguaggio assertivo di conoscenza contiene solo fatti della forma $C$ e $P_n(C1, \ldots, Cn)$. Un linguaggio assertivo misto contiene entrambi i tipi di affermazioni.
+\end{mydefinition}
+
+\begin{myexample} (Un linguaggio assertivo di dati che descrive il dominio dei dati nell'Esempio 6.2)
+    Alcune affermazioni sono le seguenti:
+    \begin{align*}
+        & \text{Person(sofia)} && \text{Woman(sofia)} && \text{Man(paolo)} \\
+        & \text{Person(paolo)} && \text{Dog(paolo)} && \text{Dog(rocky)} \\
+        & \text{Near(sofia, paolo)} && \text{DogOf(rocky, sofia)} && \text{FriendOf(sofia, paolo)} \\
+        & \text{DogOf(rocky, paolo)} && \text{HasDog(sofia, rocky)} && \text{HasFriend(paolo, sofia)}
+    \end{align*}
+
+\end{myexample}
+
+\begin{myexample}[(Un linguaggio assertivo di conoscenza che descrive il dominio della conoscenza nell'Esempio 6.3)]
+    Alcune affermazioni sono le seguenti:
+    \begin{align*}
+        & \text{Person} && \text{HasDog(Entity,Entity)} && \text{Woman} \\
+        & \text{Dog} && \text{FriendOf2(Man,Man,man)} && \text{Animal} \\
+        & \text{Near(Entity, Entity)} && \text{HasFriend(Man,Dog)} && \text{FriendOf1(Person, Person)}
+    \end{align*} 
+    dove "Entity" è il concetto che denota l'insieme Entity di tutte le entità nel dominio.
+\end{myexample}
+
+\begin{myexample}[(Un linguaggio assertivo misto che descrive il dominio misto negli Esempi 6.2, 6.3)]
+    Alcune affermazioni sono le seguenti:
+    \begin{align*}
+        & \text{Person} && \text{Near(rocky, paolo)} && \text{Person(paolo)} \\
+        & \text{FriendOf1(Person, Person)} && \text{FriendOf1(sofia, paolo)} && \text{Dog} \\
+        & \text{Dog(rocky)} && \text{Near(Entity, Entity)} && \text{Near(paolo, sofia)}
+    \end{align*}
+    Le affermazioni di conoscenza implicano affermazioni sui dati. Pertanto, ad esempio, si potrebbe dedurre che Sofia è una persona dal fatto che è un amico di un'altra persona. Questo richiede ragionamento, cioè ciò per cui servono le logiche.
+\end{myexample}
+
+\begin{myexample}[(Un linguaggio assertivo di conoscenza, utilizzando modelli ER, che descrive il dominio della conoscenza nell'Esempio 6.3)]
+    Consideriamo l'Esempio 6.6: concentriamoci sui seguenti concetti e ruoli:
+    \begin{align*}
+        & \text{Person} && \text{Animal} && \text{HasAnimal(Person, Animal)} \\
+        & \text{OwnedBy(Animal, Person)} && \text{Woman} && \text{Man} \\
+        & \text{Dog} && \text{HasDog(Man, Dog)} && \text{HasDog(Women, Dog)} \\
+        & \text{OwnedBy(Dog, Man)} && \text{OwnedBy(Dog, Woman)}
+    \end{align*}
+
+    Here is a sample ER Model describing our example:
+    \clearpage
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.7\linewidth]{imgs/img6.1.png}
+        \caption{Modello ER}
+    \end{figure}
+\end{myexample}
+
+Notazione: i quadrati rappresentano concetti, i rombi rappresentano relazioni, i triangoli
+rappresentano una relazione IS-A (quindi, ad esempio, Uomo è un'istanza di Persona).
+Si noti che i domini, come li abbiamo definiti, non consentono le relazioni IS-A (per il momento, vedere Osservazione 6.3). Ecco perché questa relazione non deve essere considerata per i linguaggi ER da considerarsi linguaggi assertivi. Per quanto riguarda le frecce, quella con due stanghe rappresenta una relazione uno a uno, mentre le frecce a forchetta rappresentano una relazione molti a molti, in cui quelle con un punto bianco identificano l'esistenza facoltativa della relazione.
+
+\begin{myexample}[(Un linguaggio assertivo di dati, utilizzando database relazionali, che descrive il dominio dei dati nell'Esempio 6.2)]
+    Considerando le affermazioni dell'esempio 6.1, ecco come i nostri dati sono rappresentati da un database:
+    \clearpage
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.7\linewidth]{imgs/img6.2.png}
+        \caption{Database con dati}
+    \end{figure}
+    Notiamo come alcune caselle siano istanziate come NULL, questo avviene per mancanza di informazioni.
+\end{myexample}
+
+\begin{myexample}[(Un linguaggio assertivo di conoscenza, utilizzando schemi di database relazionali, che descrive il dominio della conoscenza nell'Esempio 6.2)]
+    Invece, in questo esempio vediamo le relazioni delle diverse chiavi nel database (continuando a considerare le affermazioni nell'esempio 6.1):
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.7\linewidth]{imgs/img6.3.png}
+        \caption{Relazione del Database}
+    \end{figure}
+    Notiamo come alcune caselle siano istanziate come NULL, questo avviene per mancanza di informazioni.
+\end{myexample}
+
+\begin{myobservation}[(Linguaggi assertivi, dati, conoscenza e misti)]
+    I tre esempi chiariscono lo scopo e lo scopo dei linguaggi e dei domini di dati, conoscenza e misti. I linguaggi di dati, che descrivono fatti nel mondo reale, formalizzano il contenuto dei database (relazionali) o rappresentazioni analoghe (file CSV, JSON, XML). I linguaggi di conoscenza specificano la conoscenza di riferimento, ad esempio, relazioni, attributi, dei linguaggi di dati. I linguaggi misti vengono utilizzati per specificare entrambi.
+\end{myobservation}
+
+
+
+\section{Funzione d'interpretazione}
+\begin{mydefinition}[(Funzione di interpretazione, interpretazione intensionale)]
+    La rappresentazione intenzionale $I_i^A$ di una funzione di interpretazione $I_A : L_A \rightarrow D$ di un linguaggio assertivo è definita come segue:
+    \begin{equation}
+        \mathcal{I}^i_A = \langle \mathcal{I}_e, \mathcal{I}_C, \mathcal{I}_P \rangle
+    \end{equation}
+    con:
+    \begin{equation}
+        \begin{aligned}
+            &\mathcal{I}_e : \mathcal{E} &&\rightarrow \verb|E| \\
+            &\mathcal{I}_C : \{\mathcal{C}\} &&\rightarrow \verb|{E}| \\
+            &\mathcal{I}_P : \{\mathcal{P}^n\} &&\rightarrow \verb|{E}| \times \dots \times \verb|{E}|
+        \end{aligned}
+    \end{equation}
+    e di conseguenza:
+    \begin{equation}
+    \begin{aligned}
+        I_\mathcal{A}(C(e)) &= I_\mathcal{C}(C)(I_\mathcal{E}(e)) &&= e \in C \\
+        I_\mathcal{A}(P_n(e_1, \ldots, e_n)) &= I_{\mathcal{P}_n}(I_\mathcal{E}(e_1), \ldots, I_\mathcal{E}(e_n)) &&= \langle e_1, \ldots, e_n \rangle \in R_n \\
+        I_\mathcal{A}(C) &= I_\mathcal{C}(C) &&= C \subseteq E \\
+        I_\mathcal{A}(P_n(C_1, \ldots, C_n)) &= I_{\mathcal{P}_n}(I_\mathcal{C}(C_1), \ldots, I_\mathcal{C}(C_n)) &&= R_n \subseteq C_1 \times \cdots \times C_n
+    \end{aligned}
+\end{equation}
+dove: $I_e$ è la funzione di interpretazione delle entità, $I_C$ è la funzione di interpretazione dei concetti e $I_P$ è la funzione di interpretazione delle proprietà.
+\end{mydefinition}
+
+\begin{mynotation}[(Notazione alternativa per la funzione di interpretazione)]
+    L'equazione (6.7) è talvolta scritta come segue:
+    \begin{align}
+        I_\mathcal{A}(C(e)) &= C^{I}(e^I) \\
+        I_\mathcal{A}(P(e_i, e_j)) &= P^{I}(e^I_i, e^I_j) \\
+        I_\mathcal{A}(C) &= C^{I} \\
+        I_\mathcal{A}(P(C_i, C_j)) &= P^{I}(C^I_i, C^I_j)
+        \end{align}
+\end{mynotation}
+
+\begin{myobservation} [(Funzione di interpretazione)]
+    L'equazione (6.7) mostra come $I_A$ viene applicata ricorsivamente applicandola ai componenti della sua affermazione di input fino all'interpretazione delle entità. In questo processo, i suoi componenti vengono applicati come necessario, cioè $I_e$ alle entità, $I_C$ ai concetti e $I_P$ alle proprietà. La corrispondenza uno a uno tra il linguaggio e la struttura del dominio per costruire il significato di un'affermazione componendolo a partire dal significato dei suoi componenti.
+\end{myobservation}
+
+\begin{myobservation}[(Funzione di interpretazione, interpretazione intenzionale)]
+    Quando $D_i$ e $L_i^A$ vengono costruiti seguendo le regole evidenziate nell'Osservazione 6.8 e $I_A$ è come nell'Equazione (6.7), allora la rappresentazione del mondo è intuitiva e autoesplicativa, mappata uno a uno con la rappresentazione analoga che sta descrivendo. Ciò consente allo sviluppatore della rappresentazione di concentrarsi solo sulle rappresentazioni linguistiche, pensando implicitamente alla corrispondente rappresentazione analogica.
+\end{myobservation}
+
+\begin{mydefinition}[(Funzione di interpretazione, dati, conoscenza, misto)]
+    Una funzione di interpretazione dei dati mappa un linguaggio assertivo dei dati in un dominio dei dati. Una funzione di interpretazione della conoscenza mappa un linguaggio assertivo della conoscenza in un dominio della conoscenza. Una funzione di interpretazione mista mappa un linguaggio misto in un dominio misto.
+\end{mydefinition}
+
+\begin{myexample}[(Una funzione di interpretazione dei dati dal linguaggio dei dati nell'Esempio 6.5 al dominio dei dati nell'Esempio 6.2)]
+    Un'istanza di applicazione è
+    \begin{align*}
+        I_A(FriendOf1(sofia, paolo)) = I_P(FriendOf1)(I_e(sofia), I_e(paolo))\\ = <sofia, paolo> \in FriendOf1
+    \end{align*}
+\end{myexample}
+
+\begin{myexample}[(Una funzione di interpretazione della conoscenza dal linguaggio assertivo nell'Esempio 6.6 al dominio della conoscenza nell'Esempio 6.3)]
+    Un'istanza di applicazione è
+    \begin{align*}
+        I_A(FriendOf1) = I_P(FriendOf1) = FriendOf1 \subseteq Person \times Person
+    \end{align*}
+\end{myexample}
+
+\begin{myexample}[(Un'interpretazione della conoscenza dal linguaggio del modello ER nell'Esempio 6.1 al dominio della conoscenza nell'Esempio 6.3)]
+    Un'istanza di applicazione è
+    NECESSITA' DI IMMAGINE CON MAPPING DI UN CONCETTO E UN ELEMENTO DI PROPRIETÀ
+
+\end{myexample}
+
+\begin{myexample}[(Una funzione di interpretazione dei dati dal linguaggio del database nell'Esempio 6.9 al dominio dei dati nell'Esempio 6.2)]
+    Un'istanza di applicazione è
+    NECESSITA' DI IMMAGINE CON MAPPING DI UN ELEMENTO DI DATI COMMENTO SU COME MAPPARE NULL
+\end{myexample}
+
+\begin{myexample}[(Una funzione di interpretazione della conoscenza dal linguaggio dello schema del database nell'Esempio 6.15 al dominio della conoscenza nell'Esempio 6.2) ]
+    Un'istanza di applicazione è
+    NECESSITA' DI IMMAGINE CON MAPPING DI UN ELEMENTO DI DATI
+\end{myexample}
+
+
+\section{Modello del mondo}
+
+
 
 \chapter{Grafi di conoscenza - rappresentare il mondo come un grafo}
 
