@@ -510,10 +510,32 @@ Secondo l'Equazione (3.2), una teoria assertiva $\mathcal{T}_A$ è definita come
     \begin{equation}
         \mathcal{I}_A : \mathcal{L}_A \rightarrow \verb|D| \quad (\mathcal{I}_A \subseteq \mathcal{L}_A \times \verb|D|)
     \end{equation}
-
+    Diciamo che un fatto $f \in M$ è l'interpretazione di $a \in I_A$, e scriviamo:
+    \begin{equation}
+        f = I_A(a) = a^{I_A}
+    \end{equation}
+    Per indicare che $a$ è una descrizione linguistica di $f$, diciamo che $f$ è l'interpretazione di $a$, o equivalentemente, che $a$ denota $f$.
 \end{mydefinition}
 
-Vedi 3.3 (ripetizione) ... Andiamo avanti
+\begin{myobservation}[(Funzione di interpretazione)]
+    La Definizione 5.5 si generalizza secondo le necessità e sostituisce la Definizione 3.3.
+\end{myobservation}
+
+\begin{myobservation}[(Funzione di interpretazione, non ambiguità e sinonimia)]
+    Come dall'Osservazione 3.7, 3.8, 3.9, le funzioni di interpretazione, essendo funzioni, non sono ambigue e non consentono affermazioni e parole polisemiche, ma permettono la sinonimia.
+\end{myobservation}
+
+\begin{myobservation}[(Funzione di interpretazione, totalità)]
+    Le funzioni di interpretazione sono totali. Ciò garantisce che ogni elemento del linguaggio abbia un'interpretazione.    
+\end{myobservation}
+
+\begin{myobservation}[(Funzione di interpretazione, non suriettività)]
+    Le funzioni di interpretazione non sono necessariamente suriettive. In altre parole, se $I_A: L_A \rightarrow D$, $L_A$ potrebbe non essere in grado di denominare tutti i fatti in $D$. Questa proprietà è utile con domini infiniti o quando non si è interessati a menzionare tutti i fatti conosciuti. Vedi anche l'Osservazione 5.5.
+\end{myobservation}
+
+\begin{myexample}[(Funzione di interpretazione)]
+    Prendendo come esempio 5.2, consideriamo $L_A$ che contiene le affermazioni dell'Esempio 3.3, estese per descrivere tutti i fatti nel dominio $D$ definito nell'Esempio 5.1. Prendiamo il dominio $D$ definito nell'Esempio 5.1. Quindi, una funzione di interpretazione $I_A: L_A \rightarrow D$ può essere costruita estendendo in modo ovvio la funzione di interpretazione definita nell'Esempio 3.4.
+\end{myexample}
 
 \section{Modello del mondo}
 Il viaggio è completo. Dobbiamo soltanto mettere tutto insieme.
