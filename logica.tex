@@ -7,6 +7,8 @@
 \usepackage{hyperref}
 \usepackage{outlines}
 \usepackage{enumitem}
+\usepackage{graphicx}
+
 
 
 \hypersetup{
@@ -81,6 +83,14 @@
 }{  \par\medskip
 }
 
+\newcounter{myreasoningproblem}[chapter]  % Numerazione con il numero di sezione
+\renewcommand{\themyreasoningproblem}{\arabic{chapter}.\arabic{myreasoningproblem}}  % Formato del contatore
+
+\newenvironment{myreasoningproblem}[1][]{
+  \refstepcounter{myreasoningproblem}
+  \par\medskip\noindent\textbf{Problema di ragionamento \themyreasoningproblem\quad #1} \ignorespaces
+}{  \par\medskip
+}
 
 \newcounter{myterminology}[chapter]  % Numerazione con il numero di sezione
 \renewcommand{\themyterminology}{\arabic{chapter}.\arabic{myterminology}}  % Formato del contatore
@@ -858,12 +868,14 @@ dove: $I_e$ è la funzione di interpretazione delle entità, $I_C$ è la funzion
 
 \begin{mynotation}[(Notazione alternativa per la funzione di interpretazione)]
     L'equazione (6.7) è talvolta scritta come segue:
-    \begin{align}
-        I_\mathcal{A}(C(e)) &= C^{I}(e^I) \\
-        I_\mathcal{A}(P(e_i, e_j)) &= P^{I}(e^I_i, e^I_j) \\
-        I_\mathcal{A}(C) &= C^{I} \\
-        I_\mathcal{A}(P(C_i, C_j)) &= P^{I}(C^I_i, C^I_j)
-        \end{align}
+    \begin{equation}
+        \begin{aligned}
+            I_\mathcal{A}(C(e)) &= C^{I}(e^I) \\
+            I_\mathcal{A}(P(e_i, e_j)) &= P^{I}(e^I_i, e^I_j) \\
+            I_\mathcal{A}(C) &= C^{I} \\
+            I_\mathcal{A}(P(C_i, C_j)) &= P^{I}(C^I_i, C^I_j)
+        \end{aligned}
+    \end{equation}
 \end{mynotation}
 
 \begin{myobservation} [(Funzione di interpretazione)]
@@ -910,7 +922,275 @@ dove: $I_e$ è la funzione di interpretazione delle entità, $I_C$ è la funzion
 
 
 \section{Modello del mondo}
+\begin{mydefinition}[(Dominio del Mondo, rappresentazione intenzionale)]
+    Dato un Dominio del Mondo \({\hat{W}}\) definito come
+    \begin{equation*}
+        {\hat{W}} = < L_A, D, I_A >
+    \end{equation*}
+        la sua rappresentazione intenzionale \({\hat{W^i}}\) è definita come
+    \begin{equation}
+        {\hat{W^i}} = < L_A^i, D_{i}, I_A^i >
+    \end{equation}
+    con
+    \begin{align*}
+        &L_A^i = < E, \{C\}, \{P\} >\\
+        &D_i = < E, \{C\}, \{R\} >\\
+        &I_A^i = < I_e, I_C, I_P >
+    \end{align*}
+    dove \(\hat{W^i}\) è (chiamato) il modello di mondo stencil, \(D_i\) è lo stencil del dominio, \(L^i_A\) è lo stencil del linguaggio (assertivo) e \(I^i_A\) è lo stencil della funzione di interpretazione.
+\end{mydefinition}
 
+\begin{myobservation}[(Lo stencil del modello del mondo)]
+    \(\hat{W^i}\) è tutto ciò di cui abbiamo bisogno per definire un modello del mondo e per utilizzarlo per implementare teorie e modelli corrispondenti. Vedi le Osservazioni 5.13 e 5.14 e la Definizione 5.7.
+\end{myobservation}
+
+\begin{myterminology}[(Data, conoscenza, misto)]
+    Parliamo di modelli di mondo, teorie e modelli di dati, conoscenza e misti con il significato ovvio.
+\end{myterminology}
+
+\begin{myobservation}[(Modello di mondo)]
+    La Definizione 6.10 ci dice che un modello di mondo è composto da un linguaggio \(L_A\) di affermazioni su un dominio di riferimento \(D\), in cui il significato delle affermazioni in \(L_A\) è univoco nel senso che il fatto denotato da un'affermazione è definito in modo univoco dal ruolo chiave della funzione di interpretazione \(I_A\). In questo senso, vale la pena riassumere le proprietà chiave delle funzioni di interpretazione, come introdotte e discusse sopra.
+    \begin{itemize}
+        \item Non consente la polisemia: un elemento nel linguaggio denota uno e un solo elemento del dominio. L'ambiguità denotazionale non è possibile;
+        \item Consente la sinonimia: un elemento del dominio può essere denotato da più di un elemento del linguaggio;
+        \item È totale: ogni elemento del linguaggio ha una denotazione nel dominio di riferimento. Le affermazioni prive di significato non sono consentite;
+        \item Non è (necessariamente) surgettivo: possono esistere elementi del dominio per i quali non esistono elementi nel linguaggio che li denotano.
+        \item È compositivo: il significato di un'affermazione è calcolato mediante la composizione funzionale dei suoi elementi costitutivi. Il significato delle affermazioni è codificato intenzionalmente nella loro struttura.
+    \end{itemize}
+\end{myobservation}
+
+\begin{myobservation}[(Definizione di un modello di mondo)]
+    La costruzione di un modello di mondo \(\widehat{W} = < L_A, D, I_A >\) richiede di passare attraverso la definizione dei suoi tre componenti. La motivazione è di solito la necessità di modellare un determinato dominio di problema. Il modellatore di solito inizia con una comprensione intuitiva del dominio, anche se non è lavorata in dettaglio. Il processo di solito segue i seguenti passaggi:
+    \begin{enumerate}
+        \item Definire \(L_A\), dove l'idea chiave è che \(L_A\) dovrebbe catturare gli aspetti chiave del dominio di destinazione;
+        \item Specificare \(D\) assicurandosi che sia una rappresentazione analogica adeguata del dominio di destinazione;
+        \item Definire \(I_A\), in questo processo convalidando il fatto che \(L_A\) e \(D\) siano adeguatamente definiti e allineati reciprocamente.
+    \end{enumerate}
+    Spesso gli ultimi due passaggi, almeno inizialmente, vengono eseguiti solo in modo intuitivo, facendo affidamento sulla composizione della funzione di interpretazione. Questi passaggi di solito vengono eseguiti completamente solo quando il modello di mondo è stato utilizzato per un po' di tempo e le sue ambiguità, se presenti, sono diventate esplicite. Nel complesso, il processo di costruzione dei modelli di mondo è complesso, richiede molta esperienza. Potrebbe richiedere anni per definire completamente un modello di mondo.
+\end{myobservation}
+
+\begin{myexample}[(Definizione di un modello di mondo)]
+    In tutta questa sezione, a partire dalla Sezione 2, abbiamo costruito modelli di mondo. Modelli di mondo semplici possono essere costruiti raccogliendo linguaggio, dominio e funzione di interpretazione da questi esempi e allineandoli in modo adeguato. Tuttavia, si noti che, come già menzionato in precedenza, la definizione dei modelli di mondo è un compito molto complesso che richiede molta competenza, validazione nel campo e, in ultima analisi, tempo. Come già menzionato in precedenza, i modelli ER, i modelli UML, sottoinsiemi del linguaggio naturale arricchiti con adeguate funzioni di interpretazione, sono esempi di modelli di mondo.
+\end{myexample}
+
+\begin{myobservation}[(Utilizzo di un modello di mondo - costruzione e ragionamento su una teoria del mondo)]
+    Il problema è come descritto nella Sezione 1.3 e nella Sezione 2.2. Abbiamo un modello di mondo e dobbiamo utilizzare la sua struttura per costruire un insieme di affermazioni, cioè una teoria del mondo, e dobbiamo assicurarci di cosa essa rappresenta, ovvero il modello di riferimento, e le sue proprietà. Una volta che una teoria è articolata con riferimento a un modello di mondo, diventa possibile studiare le sue proprietà attraverso una metodologia generale e algoritmi definiti nella prossima sottosezione.
+\end{myobservation}
+
+L'aspetto chiave nella definizione o selezione di un modello di mondo è la decisione sul linguaggio assertivo \(L_A\) e il livello di ambiguità che esso permette.
+
+\begin{myintuition}[(Linguaggio, informale, semi-formale, logico)]
+    I linguaggi dei modelli di mondo sono di tre tipi, come segue:
+    \begin{itemize}
+        \item \textbf{Linguaggi informali}, ossia linguaggi in cui la sintassi di \(L_A\) è definita in modo informale, ad esempio, in linguaggio naturale e senza l'uso di regole di produzione.
+        \item \textbf{Linguaggi semi-formali}, ossia linguaggi in cui la sintassi di \(L_A\) è definita formalmente.
+        \item \textbf{Linguaggi formali}, chiamati anche linguaggi logici, ossia linguaggi in cui \(L_A\) e \(I_A\) sono definiti formalmente.
+    \end{itemize}
+\end{myintuition}
+
+\begin{myexample}[(Linguaggio, informale, semi-formale, logico)]
+    Con riferimento all'esempio precedente, abbiamo quanto segue:
+    \begin{itemize}
+        \item Linguaggi informali: tutte le lingue naturali;
+        \item Linguaggi semi-formali: il linguaggio relazionale dei database, la notazione ER e UML;
+        \item Linguaggi logici: i linguaggi utilizzati nella logica.
+    \end{itemize}
+\end{myexample}
+
+\begin{myobservation}[(Linguaggio, informale, semi-formale, logico)]
+    Abbiamo quanto segue.
+    \begin{itemize}
+        \item I linguaggi informali sono più facili da usare in quanto sono conosciuti da tutti. Nell'Informatica, vengono tipicamente utilizzati nella stesura dei requisiti iniziali, ad esempio, da mostrare ai clienti. La principale difficoltà è che c'è una elevata probabilità di fraintendimento. Ora vengono utilizzati anche nelle interazioni con i ChatBot.
+        \item I linguaggi semi-formali vengono tipicamente utilizzati nell'Ingegneria del Software quando si scrivono requisiti avanzati. Riducono il livello di ambiguità e sono molto efficaci nel lavoro collaborativo tra gli Ingegneri del Software. Possono anche essere utilizzati nella generazione automatica di codice. Possono sorgere problemi a causa della presenza di un certo livello di ambiguità semantica.
+        \item I linguaggi logici hanno due principali utilizzi: (i) La specifica di software e hardware altamente critici (ad esempio, sistemi critici per la sicurezza o la sicurezza) e (ii) l'implementazione di sistemi di ragionamento, tipicamente sistemi di Intelligenza Artificiale, in grado di calcolare le conseguenze da ciò che è noto.
+    \end{itemize}
+\end{myobservation}
+
+\section{Utilizzare un modello di mondo}
+Vediamo come i modelli di mondo possono essere utilizzati nella pratica per rappresentare e ragionare sul mondo. Ci concentriamo sui modelli di mondo logici.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{imgs/img6.4.png}
+    \caption{Risolvere problemi utilizzando il modello di mondo}
+\end{figure}
+
+\begin{myintuition}[(La risoluzione dei problemi mediante l'uso di modelli di mondo)]
+    L'uso dei modelli di mondo può essere caratterizzato come una soluzione alla necessità di rispondere a domande (in linguaggio naturale) o query (in qualche linguaggio formale, ad esempio SQL) sul mondo, grazie allo sfruttamento di un meccanismo di ragionamento che consente di calcolare conseguenze da un corpo di conoscenza esistente sul mondo, cioè una teoria. Questo processo di solito si articola in tre compiti principali, come segue (vedi anche Figura 6.4):
+    \begin{itemize}
+        \item Comunicare Dati e Conoscenza, da un responsabile di sistema al sistema. Ciò richiede la specifica di un linguaggio \(L_T\) che può essere utilizzato per specificare i fatti del modello di mondo in uso.
+        \item Porre una Domanda, da un utente al sistema, ovvero le domande / query specifiche su cui l'utente vuole conoscere le risposte. Ciò richiede la specifica di un linguaggio \(L_Q\) utilizzato per scrivere domande / query.
+        \item Rispondere a una Domanda, dal sistema all'utente, riguardo alla domanda posta precedentemente, scritta in un linguaggio \(L_A\).
+    \end{itemize}
+
+Alcune osservazioni. Il responsabile e l'utente sono di solito persone diverse. Di solito il processo di fornire al sistema ulteriori informazioni è continuo nel tempo. Di solito \(L_Q\) e \(L_A\) sono lo stesso linguaggio \(L\). Molto spesso il linguaggio \(L_T\) è diverso sia da \(L_Q\) che da \(L_A\). Ci sono tre principali motivazioni per questo: efficienza del ragionamento, intuitività dell'interazione con l'utente e, non da ultimo, la necessità che \(L_T\) sia più adatto per la specifica del modello di mondo. Ad esempio, come sarà chiaro nel seguito, i modelli basati su grafi sono molto adatti per la specifica del modello di mondo, mentre \(L_Q\) e \(L_A\) sono spesso in (alcuni frammenti di) linguaggio naturale. La traduzione tra questi linguaggi è sempre automatica e implementata all'interno del sistema di domande e risposte.
+\end{myintuition}
+
+\begin{myterminology}[(Ne Il linguaggio del modello di mondo)]
+    Nelle seguenti assumiamo che \(L_Q = L_A = L_T = L_W\), dove \(L_W\) è il linguaggio di rappresentazione del modello di mondo.
+\end{myterminology}
+\begin{mydefinition}[(Interpretazione e conseguenza)]
+    Sia \(\hat{W} = <L_A, D, I_A>\) un modello di mondo. Sia \(T \subseteq L_A\) una teoria e \(M \in D\) un modello di \(\hat{W}\). Sia \(a \in T\) un'asserzione. Allora scriviamo
+    \begin{equation}
+        \begin{aligned}
+            &M |= _{L_A} a \text{ to mean } I_A(a) \in M \\
+            &M |= _{L_A} T \text{ to mean } I_A(a) \in M \text{ per ogni } a \in T
+        \end{aligned}
+    \end{equation}
+    e diciamo che $M$ implica $T$, o anche che M implica \(a\). La notazione per il linguaggio \(L_A\) viene omessa quando non è necessaria.
+\end{mydefinition}
+
+\begin{myintuition}[(Modelli di mondo, problemi di ragionamento)]
+    Ma quali domande e quali risposte? Tutti i modelli di mondo forniscono risposte a quattro (fondamentali) domande fondamentali che enunciamo di seguito come problemi di ragionamento. Supponiamo di avere un modello di mondo \(\hat{W}\) definito intensionalmente, cioè \(\hat{W^i} = <L_i, D_i, I_i>\) e che abbiamo un insieme {M} di modelli con \(M \subseteq D\) e un insieme di teorie \(T \subseteq L_A\). Allora abbiamo quanto segue (notare che un'asserzione si comporta come con un elemento):
+\end{myintuition}
+
+\begin{myreasoningproblem}[(Model checking)]
+    Given T and M, check whether $M |= T$ .
+\end{myreasoningproblem}
+
+\begin{myobservation}[(Verifica del modello e correttezza della teoria)]
+    La verifica del modello è la stessa cosa della verifica della correttezza di una teoria rispetto a un modello, come dalla Definizione 5.7. È sufficiente verificare se le asserzioni in T si verificano in M.
+\end{myobservation}
+
+\begin{myreasoningproblem}[(Satisfiability)]
+    Given T , check whether there exists M such that $M |= T$ .
+\end{myreasoningproblem}
+
+\begin{myobservation}[(Soddisfacibilità)]
+    Qualsiasi teoria che non rappresenti informazioni negative, come più spesso accade, è soddisfacibile. Se le informazioni negative sono consentite, è sufficiente verificare se la teoria contiene due fatti che si contraddicono reciprocamente.
+\end{myobservation}
+
+\begin{myobservation}[(Risposta alle query nei database)]
+    La risposta alle query nei database è una forma sofisticata di verifica del modello / soddisfacibilità. Il contenuto del database è il modello di mondo di riferimento, la query è la teoria da verificare, la risposta è l'insieme di istanze che rendono corretta la teoria di input.
+\end{myobservation}
+
+\begin{myreasoningproblem}[(Validity)]
+    Given T, check whether for all $M$, $M |= T$.
+\end{myreasoningproblem}
+
+\begin{myobservation}[(Validità)]
+    Applicare la verifica del modello a tutti i modelli M.
+\end{myobservation}
+
+\begin{myreasoningproblem}[(Insoddisfacibilità)]
+    Dato T, verificare se non esiste alcun M tale che $M |= T$.
+\end{myreasoningproblem}
+
+\begin{myobservation}[(Insoddisfacibilità)]
+    Se le informazioni negative sono consentite, verificare due asserzioni contraddittorie.
+\end{myobservation}
+
+\begin{myintuition}[(Un'architettura per la risoluzione dei problemi mediante l'uso di modelli di mondo)]
+    L'architettura che supporta l'uso dei modelli di mondo, come specificato nell'Intuizione 6.6, è rappresentata nella Figura 6.4. Possiamo identificare due componenti principali, come segue:
+    \begin{itemize}
+        \item Un motore di modelli di mondo (inferenza) che codifica i dati e le conoscenze disponibili sul mondo e consente un ragionamento minimo su di essi (vedere i problemi di ragionamento nell'Intuizione 6.7);
+        \item Un motore di interpretazione (inferenza) che implementa uno o più dei problemi di ragionamento definiti nell'Intuizione 6.7.
+    \end{itemize}
+    Nota che il sistema viene selezionato all'inizio. La scelta dipende dalle specifiche del problema da risolvere.
+\end{myintuition}
+
+\begin{myobservation}[(Motore di inferenza del modello di mondo)]
+    Il ragionamento in un modello di mondo equivale a verificare se una query (un'unica asserzione o un insieme di asserzioni come parte di una teoria) appartiene al modello. Query più sofisticate, come quelle implementate nei database relazionali, possono essere implementate in cui è possibile lasciare alcuni elementi della query non specificati. Il motore di inferenza troverà quindi il corretto s.
+\end{myobservation}
+
+\section{Esercizi}
+
+\begin{myexercise}[(ER Creation)]
+    Create an ER Model from this theory:
+    \begin{itemize}
+        \item There is a tree
+        \item There is a banana
+        \item The monkey is eating a banana
+        \item The monkey is sitting on a tree*
+        \item The monkey is scratching his head*
+    \end{itemize}
+\end{myexercise}
+
+\begin{myexercise} \newline
+    Considera le frasi e la modellazione della teoria. Dimmi se è completa, corretta, completa e corretta, incompleta o scorretta.
+
+    \begin{minipage}{0.6\textwidth}
+        \begin{itemize}
+            \item A = "There is a banana"
+            \item A = "There is a monkey"
+            \item C = "There is a tree"
+            \item D = "The monkey is eating a banana"        
+        \end{itemize}    
+    \end{minipage}%
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/ex6.2.png}
+    \end{minipage}
+\end{myexercise}
+
+\begin{myexercise} \newline
+    Considera le frasi e la modellazione della teoria. Determina se è completa, corretta, completa e corretta, incompleta o errata.
+
+    \begin{minipage}{0.6\textwidth}
+        \begin{itemize}
+            \item A = "There is a banana"
+            \item A = "There is a monkey"
+            \item C = "There is a tree"
+            \item D = "The monkey is eating a banana"        
+        \end{itemize}    
+    \end{minipage}%
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/ex6.3.png}
+    \end{minipage}
+\end{myexercise}
+
+\begin{myexercise} \newline
+    Considera le frasi e la modellazione della teoria. Determina se è completa, corretta, completa e corretta, incompleta o errata.
+
+    \begin{minipage}{0.6\textwidth}
+        \begin{itemize}
+            \item A = "There is a banana"
+            \item A = "There is a monkey"
+            \item C = "The monkey is eating a banana"
+            \item D = "There is a tree"        
+        \end{itemize}    
+    \end{minipage}%
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/ex6.4.png}
+    \end{minipage}
+\end{myexercise}
+
+
+\begin{myexercise} \newline
+    Considera le frasi e la modellazione della teoria. Determina se è completa, corretta, completa e corretta, incompleta o errata.
+
+    \begin{minipage}{0.6\textwidth}
+        \begin{itemize}
+            \item A = "There is a banana"
+            \item A = "There is a monkey"
+            \item C = "There is a tree"
+            \item D = "The monkey is eating a banana"        
+        \end{itemize}    
+    \end{minipage}%
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/ex6.5.png}
+    \end{minipage}
+\end{myexercise}
+
+
+\begin{myexercise} \newline
+    Considera le frasi e la modellazione della teoria. Determina se è completa, corretta, completa e corretta, incompleta o errata.
+
+    \begin{minipage}{0.6\textwidth}
+        \begin{itemize}
+            \item A = "There is a banana"
+            \item A = "There is a monkey"
+            \item C = "There is a tree"
+            \item D = "The monkey is eating a banana"        
+        \end{itemize}    
+    \end{minipage}%
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imgs/ex6.6.png}
+    \end{minipage}
+\end{myexercise}
 
 
 \chapter{Grafi di conoscenza - rappresentare il mondo come un grafo}

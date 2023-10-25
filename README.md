@@ -18,5 +18,4 @@ Ancora da sistemare:
 - Capitolo 2
 - Parte finale capitolo 4
 - Parte finale capitolo 5.3 (precedenza)
-- Parte finale capitolo 6 (precedenza)
 - Capitolo 8, 9, 10 (precedenza)
