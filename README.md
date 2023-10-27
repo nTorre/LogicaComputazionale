@@ -17,4 +17,5 @@ Ancora da sistemare:
 - Capitolo 1
 - Capitolo 2
 - Parte finale capitolo 4
-- Capitolo 8, 9, 10 (precedenza)
+- Capitoli 9, 10 (precedenza)
+- sistemare i grassetti e i mathcal vari 

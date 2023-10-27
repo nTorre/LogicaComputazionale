@@ -1054,8 +1054,8 @@ Alcune osservazioni. Il responsabile e l'utente sono di solito persone diverse. 
     Sia \(\hat{W} = <L_A, D, I_A>\) un modello di mondo. Sia \(T \subseteq L_A\) una teoria e \(M \in D\) un modello di \(\hat{W}\). Sia \(a \in T\) un'asserzione. Allora scriviamo
     \begin{equation}
         \begin{aligned}
-            &M |= _{L_A} a \text{ to mean } I_A(a) \in M \\
-            &M |= _{L_A} T \text{ to mean } I_A(a) \in M \text{ per ogni } a \in T
+            &M \models _{L_A} a \text{ to mean } I_A(a) \in M \\
+            &M \models _{L_A} T \text{ to mean } I_A(a) \in M \text{ per ogni } a \in T
         \end{aligned}
     \end{equation}
     e diciamo che $M$ implica $T$, o anche che M implica \(a\). La notazione per il linguaggio \(L_A\) viene omessa quando non è necessaria.
@@ -1066,7 +1066,7 @@ Alcune osservazioni. Il responsabile e l'utente sono di solito persone diverse. 
 \end{myintuition}
 
 \begin{myreasoningproblem}[(Model checking)]
-    Given T and M, check whether $M |= T$ .
+    Given T and M, check whether $M \models T$ .
 \end{myreasoningproblem}
 
 \begin{myobservation}[(Verifica del modello e correttezza della teoria)]
@@ -1074,7 +1074,7 @@ Alcune osservazioni. Il responsabile e l'utente sono di solito persone diverse. 
 \end{myobservation}
 
 \begin{myreasoningproblem}[(Satisfiability)]
-    Given T , check whether there exists M such that $M |= T$ .
+    Given T , check whether there exists M such that $M \models T$ .
 \end{myreasoningproblem}
 
 \begin{myobservation}[(Soddisfacibilità)]
@@ -1086,7 +1086,7 @@ Alcune osservazioni. Il responsabile e l'utente sono di solito persone diverse. 
 \end{myobservation}
 
 \begin{myreasoningproblem}[(Validity)]
-    Given T, check whether for all $M$, $M |= T$.
+    Given T, check whether for all $M$, $M \models T$.
 \end{myreasoningproblem}
 
 \begin{myobservation}[(Validità)]
@@ -1094,7 +1094,7 @@ Alcune osservazioni. Il responsabile e l'utente sono di solito persone diverse. 
 \end{myobservation}
 
 \begin{myreasoningproblem}[(Insoddisfacibilità)]
-    Dato T, verificare se non esiste alcun M tale che $M |= T$.
+    Dato T, verificare se non esiste alcun M tale che $M \models T$.
 \end{myreasoningproblem}
 
 \begin{myobservation}[(Insoddisfacibilità)]
@@ -1428,6 +1428,397 @@ Una volta fornito un $\hat{\mathcal{KG}}$, è sufficiente per costruire il propr
     \end{itemize}
 \end{myexercise}
 
-\chapter{Rappresentazione estensionale della logica}
+\chapter{Logica - Rappresentazione estensionale}
+
+I modelli del mondo ci consentono di specificare i principali componenti necessari per costruire una rappresentazione del mondo, sia estensionalmente che intensionalmente, da utilizzare successivamente per risolvere problemi. Ma ciò non è sufficiente.
+
+\begin{myobservation}[(Linguaggi assertivi, limitazioni)]
+    La descrizione di domini e modelli utilizzando solo affermazioni è molto limitata. Ci piacerebbe avere modi più flessibili per descriverli. Un esempio di descrizione linguistica più ricca è la descrizione in lingua naturale riportata nella Figura 3.1 nell'Esempio 8.1.
+\end{myobservation}
+
+\begin{myexample}[(Una ricca descrizione linguistica)]
+    Considera la rappresentazione analitica nella Figura 3.1. Una buona teoria informale che ne descrive il contenuto può essere articolata come segue. 
+
+    \textit{"Paolo, Stefania e Sofia, tre grandi amici, si trovano in un incantevole parco, circondato dalla bellezza della natura. Ognuno di loro ha con sé quattro adorabili cani, pronti per una passeggiata rilassante. Paolo, con il suo sorriso contagioso, tiene i guinzagli di quattro cani amichevoli: Argo, che sembra essere l'animale più energetico del gruppo; Luna, dal pelo scuro e occhi luminosi; Max, un cane meticcio amichevole; e Penny, un piccolo cane affettuoso. Stefania, con la sua passione per gli animali, si gode la compagnia dei suoi quattro fedeli compagni: Toby, un cane affettuoso con una coda in movimento continuo; Ginger, un dolce cane marrone e bianco con orecchie appuntite; Rocky, dall'aspetto robusto ma dal cuore tenero; e Luna, un cucciolo carino e giocoso. Sofia, con il suo portamento tranquillo, cammina elegantemente seguita dai suoi quattro adorabili cani: Balto, un cane a pelo lungo e orecchie appuntite; Rex, un'anima protettiva e leale; Bella, una cagnolina elegante e affettuosa; e Charlie, un simpatico incrocio di razza con la lingua fuori, pronto a fare amicizia."}
+
+    Essere in grado di esprimere descrizioni linguistiche come quella dell'Esempio 8.1 richiede un'estensione sostanziale della capacità espressiva dei linguaggi utilizzati per descrivere i modelli del mondo, i cosiddetti linguaggi di rappresentazione. Ciò ci costringe a passare dai modelli del mondo alla logica.
+\end{myexample}
+
+\section{Dominio}
+L'obiettivo è avere un linguaggio più espressivo, se confrontato con quello di un modello del mondo, per descrivere un dominio di interpretazione, lasciando quest'ultimo invariato. Vedi la Sezione 5.1.
+
+\begin{myobservation}[(Dominio, modello)]
+    Come dalla Definizione 5.2, abbiamo \(M = \{f\} \subseteq D\), dove \(\{f\}\) è un fatto, \(M\) è un modello e \(D\) è un dominio di interpretazione.
+\end{myobservation}
+
+\section{Sistema di rappresentazione}
+\begin{mydefinition}[(Sistema di rappresentazione, formule atomiche, formule complesse, funzione di interpretazione della rappresentazione)]
+    Sia \( \hat{W} = < L_A, D, I_A > \) un modello del mondo con \( I_A : L_A \rightarrow D \). Sia \( L_a \) tale che \( L_A \subseteq L_a \) e tale che esista una funzione di interpretazione della rappresentazione \( I : L_a \rightarrow D \) con \( I_A \subseteq I \). Allora, un linguaggio di rappresentazione \( L \) è definito come
+    \begin{equation}
+        L = \{w\} = L_a \cup L_c \text{, con } L_a \subset L_c
+    \end{equation}
+    dove: \( I_A \) è come definito nella Definizione 6.7, \( w \in L \) è una formula (ben formata), \( w \in L_a \) è una formula atomica (ben formata) e \( w \in L_c \) è una formula complessa (ben formata). A loro volta, \( L_a \) e \( L_c \) rappresentano il linguaggio delle formule atomiche e delle formule complesse, rispettivamente.
+\end{mydefinition}
+
+\begin{myobservation}[(Linguaggio)]
+    La Definizione 8.1 del (linguaggio di rappresentazione) formalizza l'idea informale di linguaggio fornita nell'Intuizione 2.6.
+\end{myobservation}
+
+\begin{myobservation}[(Funzione di interpretazione della rappresentazione)]
+    Una funzione di interpretazione della rappresentazione $I$ estende una funzione di interpretazione $I_A$, cioè $I_A \subseteq I$, nel senso che si comporta allo stesso modo di $I_A$ per tutte le affermazioni $a \in L_a$. Le funzioni di interpretazione delle rappresentazioni sono definite nella Definizione 8.4.
+\end{myobservation}
+
+\begin{myobservation}[(Linguaggio di rappresentazione e modello del mondo)]
+    Dato un modello del mondo \( \hat{W} = < L_A, D, I_A > \), la tupla \( \hat{W} = < L, D, I > \) non è un modello del mondo per due motivi. Il primo è che, come dettaglieremo di seguito, \( L_a \) contiene formule (quelle in \( L_a - L_A \)) che non possono essere interpretate da una funzione di interpretazione. Il secondo è che \( L_c \) contiene formule (quelle in \( L_c - L_a \)) per le quali non esiste alcuna interpretazione. Come discusso nell'Osservazione 8.1 ed esemplificato nell'Esempio 8.1, l'obiettivo generale è fornire maggiore flessibilità nel modo in cui vengono descritti i modelli del mondo. Ciò si realizza in due modi: attraverso le formule atomiche estendendo il campo di applicazione delle funzioni di interpretazione, mantenendo comunque lo stesso dominio; e attraverso le formule complesse che elaborano linguisticamente sui contenuti del dominio. Leggendo il testo nell'Esempio 8.1 è facile scoprire che gran parte di quel testo ha una relazione solo marginale con l'immagine nella Figura 3.1.
+\end{myobservation}
+
+\begin{mydefinition}
+    Dato un linguaggio di rappresentazione $L$, una teoria $T$ è definita come
+    \begin{equation}
+        T = \{w\} \subseteq L
+    \end{equation}
+\end{mydefinition}
+
+\begin{myobservation}[(Teoria)]
+    La Definizione 8.2 generalizza in modo ovvio la Definizione 5.4.
+\end{myobservation}
+
+\begin{myobservation}[(Cosa rappresentano i linguaggi di rappresentazione)]
+    Come evidenziato anche dall'Esempio 8.1, l'esistenza dei linguaggi di rappresentazione è motivata dal fatto che ci sono informazioni che non possono essere facilmente e intuitivamente rappresentate in un modello del mondo. Per fornire alcuni esempi:
+    \begin{itemize}
+        \item \textit{Informazioni negative}. I modelli del mondo di solito non rappresentano ciò che non è il caso nella parte del mondo rappresentata. E c'è effettivamente una buona ragione per questo. Per qualsiasi cosa che viene rappresentata, ci sono infinitamente molte cose che questa cosa non è. Quindi, ad esempio, se vedi una donna con i capelli biondi e varie caratteristiche, questa donna non è un uomo, non è un animale, non ha i capelli neri, non ha i capelli rossi, non è a casa, ecc.;
+        \item \textit{Informazioni parziali}. Percepite una persona da una certa distanza e non potete distinguere se è una donna o un uomo;
+        \item \textit{Informazioni conseguenziali}. Dal momento che vedete una donna, sapete, come conseguenza, che è anche una persona.
+        \item \textit{Informazioni equivalenti}. Dal momento che vedete una macchina gialla con una targa sul tetto, sapete che è un taxi.
+        \item e molto altro.
+    \end{itemize}
+    Le descrizioni in lingua naturale come quella nell'Esempio 8.1 di solito integrano la descrizione del modello del mondo con molte informazioni aggiuntive che, si spera, faciliteranno la creazione di un modello mentale corretto e non divergente del modello del mondo che viene descritto. Il messaggio chiave è che i modelli del mondo sono rappresentazioni linguistiche dirette di rappresentazioni analogiche mentali. Come tali, difficilmente possono rappresentare informazioni che non sono esplicitamente codificate in una rappresentazione analogica, ma che riguardano piuttosto come gli osservatori si relazionano alle rappresentazioni analogiche.
+\end{myobservation}
+
+\begin{myobservation}[(Cosa i linguaggi di rappresentazione non rappresentano)]
+    I linguaggi di rappresentazione descrivono i modelli del mondo, ma non catturano la pragmatica di come vengono utilizzate le descrizioni linguistiche, né il testo aggiuntivo utilizzato per imporre questa pragmatica, ad esempio: il fatto che piaccia ciò che si vede, se qualcuno è arrabbiato, se qualcuno sta cercando di convincere qualcun altro della veridicità di ciò che sta descrivendo e molto altro.
+\end{myobservation}
+
+\begin{myterminology}[(Linguaggio di rappresentazione e funzione di interpretazione)]
+    Per semplicità, quando non sussiste confusione, nei seguenti parliamo di "linguaggio" e "funzione di interpretazione", intendendo rispettivamente "linguaggio di rappresentazione" e "funzione di interpretazione della rappresentazione".
+\end{myterminology}
+
+\begin{myobservation}[(Formule atomiche)]
+    Le affermazioni sono formule atomiche, ma alcune formule atomiche non sono affermazioni. La proprietà chiave che le formule atomiche condividono con le affermazioni è che sono interpretate da una funzione di interpretazione. In altre parole, il significato delle formule atomiche, come quello delle affermazioni, può essere calcolato direttamente dal dominio.
+\end{myobservation}
+
+\begin{mydefinition}[(Affermazioni atomiche, affermazioni complesse)]
+    Dato un linguaggio \(L = L_a \cup L_c\), \(L_a\) è definito come
+    \begin{equation}
+        L_a = L_A \cup L_{AC}
+    \end{equation}
+    dove: \(L_A\) è un linguaggio assertivo, che chiamiamo anche un linguaggio di affermazioni atomiche, e \(L_{AC}\) è un linguaggio di affermazioni complesse.
+\end{mydefinition}
+
+\begin{myobservation}[(Formule atomiche, operatori di conoscenza e dati)]
+    Le formule atomiche sono distinte in base all'uso di operatori che generano.
+\end{myobservation}
+
+\begin{myexample} [(Formule atomiche, operatori di conoscenza)]
+    Possiamo costruire formule atomiche complesse nel seguente modo. Se \(C_1\) e \(C_2\) sono concetti, allora (seguendo la notazione del LOD), \(C_1 \cap C_2\) è anche una descrizione di concetto, dove \(C_i\) può essere un'affermazione atomica così come un'affermazione complessa. Esempi di affermazioni in questo linguaggio sono (";" è utilizzato per separare diverse formule):
+    
+\begin{align*}
+    & \text{"being a person"} && ; &\text{"having blond hair"} &&; \text{"having a dog"} ;\\
+    & \text{"having blond hair"} &&\sqcap &\text{"being a person"} ; \\
+    & \text{"being a person"} &&\sqcap &\text{"having blond hair"} &&\sqcap \text{"being a person"} & & \\
+    \end{align*}
+    ... e così via, con formule atomiche complesse di lunghezza indefinita. Come dal LOD, l'interpretazione di \(C_1 \cap C_2\) è l'intersezione delle interpretazioni di \(C_1\) e \(C_2\). Quindi, ad esempio, il concetto atomico nella seconda riga denota una persona con i capelli biondi.
+
+\end{myexample}
+
+\begin{myexample}[(Formule atomiche, operatori di dati)]
+!!DA FARE!! FUNZIONI ESEMPIO CON "friendOf" e "nearTo"
+
+\end{myexample}
+
+\begin{myobservation}[(Formule complesse)]
+    A differenza delle formule atomiche, le formule complesse non sono interpretate da una funzione di interpretazione. L'idea è che le formule complesse consentano di comporre formule atomiche in articolazioni complesse più lunghe il cui significato può essere dedotto in qualche modo dal significato delle formule atomiche costituenti tramite implicazione, vedere di seguito.
+\end{myobservation}
+
+\begin{myexample}[(Formule complesse)]
+    Possiamo costruire formule atomiche complesse come segue.
+    Se $A_1$ e $A_2$ sono formule, allora (seguendo la notazione di LOP), $A_1$ xor $A_2$ è anche una formula in cui $A_i$ può essere una formula atomica o complessa. Esempi di affermazioni in questo linguaggio sono (";" viene utilizzato per separare diverse formule):
+    \begin{align*}
+        &\text{"Sofia è una persona" ;} \\
+        &\text{"Sofia è una persona" xor "Sofia è una persona";}\\
+        &\text{"Sofia è una persona" xor "Paolo è un uomo" ;} \\
+        &\text{("Sofia è una persona" xor "Paolo è un uomo") xor "Paolo è un cane" ;}
+    \end{align*}
+    \dots e così via, con formule complesse di lunghezza indefinita. L'intuizione è che $A_1$ xor $A_2$ contiene un'unica e sola informazione tra le informazioni denotate da $A_1$ e $A_2$.
+\end{myexample}
+
+\begin{myexample}[(Linguaggi di rappresentazione)]
+    Di seguito sono riportati esempi di linguaggi di rappresentazione:
+    \begin{enumerate}
+    \item Tutte le lingue naturali, come utilizzate dalle persone nella vita di tutti i giorni;
+    \item Il linguaggio dell'aritmetica, che descrive come effettuare operazioni di addizione e sottrazione su numeri naturali. Il linguaggio dell'aritmetica è una lingua naturale semplificata che consente di menzionare, tra le altre cose, numeri, variabili, più, meno, moltiplicazione e la possibilità di comporre frasi più complesse;
+    \item I linguaggi dei database relazionali (DB) non si estendono ai linguaggi di rappresentazione;
+    \item I linguaggi entità-relazione (ER) non si estendono ai linguaggi di rappresentazione.
+    \end{enumerate}
+\end{myexample}
+
+\begin{myobservation}[(Linguaggi basati su grafi e linguaggi di rappresentazione)]
+    I linguaggi basati su grafi (ad esempio, ER o linguaggi di database) in generale sono difficili da estendere ai linguaggi di rappresentazione a causa della difficoltà intrinseca nel mantenere l'intuitività, che è la caratteristica chiave dei linguaggi basati su grafi. I linguaggi di rappresentazione si adattano più facilmente ai linguaggi che hanno una struttura sequenziale simile a quella delle lingue naturali.
+\end{myobservation}
+
+\section{Funzione di interpretazione}
+
+\begin{mydefinition}[(Funzione d'interpretazione)]
+    Dato un linguaggio $L = L_a \cup L_c$, con $L_a = L_A \cup L_{AC}$. Sia $D$ un dominio. Allora una Funzione di Interpretazione $I$ per $L_a$ è definita come segue:
+    \begin{equation}
+        I: L_a \rightarrow D \:\: (I \subseteq L_a \times D)
+    \end{equation}
+    con
+    \begin{equation}
+        I = I_A \circ I_{AC}
+    \end{equation}
+    dove
+    \begin{equation}
+        \begin{aligned}
+            & I_{AC}: L_a \rightarrow L_A \\
+            & I_A: L_A \rightarrow D
+        \end{aligned}
+    \end{equation}
+    dove: $I_A$ è una funzione di interpretazione per affermazioni atomiche e $I_{AC}$ è una funzione di interpretazione per affermazioni complesse. $I_A$ è come definita nella Definizione 5.5 e 6.8. Inoltre, diciamo che un fatto $f \in M$ è l'interpretazione di $w \in L_a$, e scriviamo
+    \begin{equation}
+        f = I(a) = a^I
+    \end{equation}
+    per indicare che $w$ è una descrizione linguistica di $f$. Diciamo che $f$ è l'interpretazione di $w$, o, equivalentemente, che $w$ denota $f$.
+\end{mydefinition}
+
+\begin{myobservation}[(Funzione di interpretazione)]
+    La Definizione 8.4 estende la Definizione 5.5 per applicarsi alle formule atomiche che non sono affermazioni. Tutte le considerazioni fatte nella Sezione 5.3 si applicano.
+\end{myobservation}
+
+\section{Entailment}
+Il significato dei linguaggi di rappresentazione è calcolato riducendo il significato delle formule complesse a quello delle loro formule atomiche costituenti.
+\begin{mydefinition}[(Relazione di implicazione)]
+    Siano $M \subseteq D$ e $w \in L$ una formula. Allora, $\models$, da leggersi come "implica", è una relazione di implicazione definita come
+    \begin{equation}
+        \models \subseteq D \times L
+    \end{equation}
+    Scriviamo anche
+    \begin{align}
+        M \models_L T \;\;\; (M \models_L w)
+    \end{align}
+    con $\{M\}$ che rappresenta un insieme di modelli $M$ e $T$ un insieme di formule $w$. $M \models T$ sta per $M \models w$ per ogni $w \in T$. La notazione per il linguaggio $L$ viene omessa quando non è necessaria. Diciamo che $M$ implica $w$, o anche che $M$ implica $T$.
+\end{mydefinition}
+
+\begin{mydefinition}[(Implcazione di una formula atomica)]
+    Se $w$ è una formula atomica, allora abbiamo
+    \begin{align}
+        M \models w \:\:\: \text{se e solo se} \:\:\: I(w) \in M 
+    \end{align}
+\end{mydefinition}
+
+\begin{myobservation}[(Implicazione di formule atomiche)]
+    L'implicazione di formule atomiche si riduce alla loro interpretazione.
+\end{myobservation}
+
+\begin{myobservation}[(Implicazione di formule complesse)]
+    L'implicazione di formule complesse opera in due passaggi, in modo simile a come le funzioni di interpretazione operano sulle formule atomiche complesse. Nel primo passaggio, riduce l'implicazione di una formula complessa a quella delle sue formule atomiche componenti. Nel secondo passaggio, applica la funzione di interpretazione alle formule atomiche.    
+\end{myobservation}
+
+\begin{myobservation}[(Relazione di implicazione)]
+    L'interpretazione è una funzione. L'implicazione è una relazione. È una relazione uno-a-molti. Può esserci un numero multiplo di formule atomiche e/o complesse che denotano un fatto e, simmetricamente, per la stessa formula ci possono essere fatti multipli implicati da essa (l'ultima proprietà è quella che rende l'implicazione una relazione).    
+\end{myobservation}
+
+\begin{myobservation}[(Relazione di implicazione e funzione di interpretazione)]
+    La differenza chiave tra l'interpretazione come funzione e l'implicazione come relazione è che con l'implicazione permettiamo a una formula (teoria) di avere significati multipli, cioè di denotare fatti multipli (insiemi di fatti), mentre l'interpretazione non consente affermazioni polisemiche. La motivazione chiave di ciò è che certe logiche, in particolare quelle utilizzate per formalizzare la presa di decisioni, ad esempio LOP, consentono di modellare la conoscenza parziale, ovvero il fatto che una persona non abbia conoscenza completa del mondo, una situazione intrinseca alla conoscenza umana. Nel caso della conoscenza parziale, una formula non presente nel modello può essere (non sempre) indifferentemente considerata vera o falsa. Vedere anche l'Osservazione 8.18.    
+\end{myobservation}
+
+\begin{myobservation}[(Relazione di implicazione e funzione di interpretazione, formula atomica e complessa)]
+    Si potrebbe pensare di distinguere tra fatti atomici e complessi e dire che sono denotati rispettivamente da formule atomiche e complesse. Non facciamo questo passo perché non esiste una cosa come un fatto complesso. I fatti sono nel mondo. Ciò che è descritto da una formula complessa non è nel mondo, è nella mente, è in come una persona descrive il mondo. Pensate, ad esempio, a una formula che afferma la mia conoscenza parziale sulla situazione attuale, ad esempio il fatto che sulla tavola ci sia una penna o una matita (dove dico questo semplicemente perché non sono abbastanza vicino e non posso vedere chiaramente). Nel mondo non esiste una penna o una matita. Sulla tavola c'è o una penna o una matita, dato che posso percepire chiaramente che c'è un solo oggetto!    
+\end{myobservation}
+
+\begin{mydefinition}[(Interpretazione e implicazione)]
+    Se un'interpretazione I è un modello per una teoria T (o una formula $w$), allora diciamo che I implica T (o $w$) e scriviamo    
+    \begin{align}
+        I \models T \:\:\:\: (I \models w)
+    \end{align}
+\end{mydefinition}
+
+\begin{myexample}[(Formule complesse)]
+    Consideriamo le formule complesse come definite nell'Esempio 8.4, cioè formule della forma $A_1$ xor $A_2$, dove $A_i$ è qualsiasi formula. Supponiamo che $A_1$ e $A_2$ siano formule atomiche. Allora $A_1$ xor $A_2$ sarà denotato da un modello M che contiene la denotazione di $A_1$ o da uno che contiene la denotazione di $A_2$. In formule:
+    \begin{equation*}
+        \begin{aligned}
+            & I(A_1) &&\models A_1 \\
+            & I(A_1) &&\models A_1 \text{xor} A_2 \\
+            & I(A_1) && \not\models A_1 \text{xor} A_2 \\
+            & \{I(A_1), I(A_2)\} && \not\models A_1 \text{xor} A_2
+        \end{aligned}
+    \end{equation*}
+    L'esempio sopra mostra quanti modelli possono denotare le stesse formule (prime tre equazioni) e anche come la stessa formula può denotare modelli multipli (prima e ultima equazione). 
+    
+    L'implicazione è come formalizziamo il ragionamento (umano).
+
+\end{myexample}
+
+\begin{mydefinition}[(Logical entailment)]
+    Siano $M \subseteq D$ un modello e $T1, T2 \subseteq L$ due teorie e $w \in L$ una formula. Allora scriviamo
+    \begin{align}
+        T_1 \models_{\{M\}} T_2 \:\:\:\: (T_1 \models_{\{M\}} w)
+    \end{align}
+    e diciamo che $T1$ (logicamente) implica $T2$ ($w$) rispetto all'insieme di modelli {$M$} se
+    \begin{align*}
+        \text{per tutti } M \in \{M\}, \:\:\:\: \text{se } M \models T_1 \:\:\:\: \text{dunque }\:\:\:\:  M \models T_2 \:\:\:\:\: (M \models w)
+    \end{align*}
+
+\end{mydefinition}
+
+\begin{myterminology}[(Implicazione logica v.2, v.3)]
+    A volte, l'implicazione logica è definita come
+    \begin{align}
+        T_1 \models T_2 \:\:\:\: (T_1 \models w)
+    \end{align}
+    per indicare che ogni modello $M \subseteq D$, cioè
+    \begin{align*}
+        \text{per ogni } M \subseteq D, \:\:\:\: \text{se } M \models T_1 \:\: \text{ quindi } \:\: M \models T_2 \:\:\:\: (M \models w)
+    \end{align*}
+    A volte, l'implicazione logica è definita come
+    \begin{align}
+        T_1 \models_T T_2 \:\:\:\: (T_1 \models_T w)
+    \end{align}
+    per significare tutti i modelli che implicano $T$, cioè
+    \begin{align*}
+        \text{per ogni M tale che } M \models T, \:\:\:\: \text{se } M \models T_1 \:\: \text{ quindi } \:\: M \models T_2 \:\:\:\: (M \models w)
+    \end{align*}
+    Utilizzeremo tutte queste definizioni in modo interscambiabile, poiché rappresentano diverse formalizzazioni della stessa nozione.
+
+\end{myterminology}
+
+\begin{myobservation}[(Implicazione logica)]
+    L'implicazione logica deve essere interpretata nel seguente modo. Prendi uno o più modelli $M$. Quindi mantieni tutti i modelli che implicano $T1$ e scarta gli altri. Se tutti questi modelli implicano anche $T2$, allora $T1$ implica $T2$. Nota il ruolo chiave di $T1$ nell'obbligare l'esclusione dei modelli in cui non vale. $T1$ focalizza solo su un insieme preciso di modelli.
+\end{myobservation}
+
+\begin{myobservation}[(Implicazione logica e ragionamento)]
+    L'implicazione logica è la formalizzazione del processo di ragionamento. Iniziamo con alcune ipotesi, che modelliamo come uno o più modelli, e verifichiamo se, sotto queste stesse ipotesi, vale anche $T2$. Questo è esattamente come ragioniamo intuitivamente. Nota che il viceversa non vale. Vale a dire, se $M \not\models T1$, allora potremmo avere $M \models T2$ o $M \not\models T2$.
+\end{myobservation}
+
+\begin{myexample}[(Ragionamento tramite implicazione)]
+    Ad esempio, si potrebbe voler dedurre dal fatto che se piove, le persone non escono di casa e dal fatto che sta piovendo, il fatto che le persone non escono di casa. O che se i miei capelli sono biondi, non sono neri. O che essere vicino a te esclude essere lontano da te. E così via. Naturalmente, il tipo di conclusioni che si possono trarre dipende dalle specifiche del modo in cui è definita la relazione di implicazione. La definizione delle logiche che si concentrano su tipi specifici di ragionamento sarà l'argomento delle sezioni seguenti.
+\end{myexample}
+
+\begin{myterminology}[(Implicazione, assioma, teorema)]
+    Considera la seguente forma di implicazione: $T1 \models w$. Storicamente, il insieme finito di formule $w \in T$ viene chiamato assiomi, mentre le loro infinite conseguenze logiche vengono chiamate teoremi. Gli assiomi sono garantiti di essere veri, essere delle informazioni a priori nel nostro caso, ad esempio, rappresentate da una teoria $\hat{KG}$.
+\end{myterminology}
+
+\begin{myterminology}[(Ragionamento deduttivo)]
+    Il tipo di ragionamento implementato dall'implicazione logica è chiamato ragionamento deduttivo.
+\end{myterminology}
+
+\begin{myterminology}[(Ragionamento, in avanti e all'indietro, obiettivo)]
+    Il ragionamento in avanti è il processo di ragionamento con cui si cerca di dimostrare un teorema, chiamato l'obiettivo, derivando conseguenze logiche dagli assiomi. In modo duale, con il ragionamento all'indietro si inizia con l'obiettivo e si cerca di ridurre il possesso dell'obiettivo al possesso degli assiomi, che si sa essere veri.
+\end{myterminology}
+
+\begin{myobservation}[(Ragionamento, in avanti e all'indietro)]
+    All'inizio dell'arte, nell'ambito dell'Intelligenza Artificiale, tutti i motori di inferenza operano all'indietro. La ragione è che in questo modo il motore di inferenza può sfruttare le informazioni codificate nella struttura dell'obiettivo. Indipendentemente dalle specifiche di una relazione di implicazione e in modo simile alle funzioni di interpretazione, si richiede che le relazioni di implicazione soddisfino un certo insieme di principi che vincolano il comportamento desiderato del ragionamento. Siano $\Gamma = \{w\}$, $\Sigma = \{w\}$ insiemi di formule e $w, w_1, w_2$ siano formule.
+\end{myobservation}
+
+\begin{myintuition}[(Riflessività)]
+    \begin{equation}
+        w \models w
+    \end{equation}
+\end{myintuition}
+
+\begin{myobservation}[(Riflessività)]
+    Ogni fatto implica se stesso. La conoscenza afferma se stessa come conoscenza. Questa è l'essenza di ciò che riguarda la conoscenza.
+\end{myobservation}
+
+\begin{myintuition}[(Taglio)]
+    \begin{equation}
+        \text{Se } \Gamma \models w_1 \text{ e } \Sigma \cup \{w_1\} \models w_2, \text{ allora } \Gamma \cup \Sigma \models w_2
+    \end{equation}
+\end{myintuition}
+
+\begin{myobservation}[(Taglio)]
+    Esistono due modi di interpretare il taglio. Il primo e più comune è che il ragionamento può essere reso efficiente eliminando risultati intermedi non rilevanti. Il secondo è la transitività, cioè il fatto che il ragionamento può essere composto concatenando sessioni di ragionamento indipendenti, qualcosa che le persone fanno continuamente nella vita di tutti i giorni.
+\end{myobservation}
+
+\begin{myintuition}[(Compattezza)]
+    \begin{equation}
+        \text{Se } \Gamma \models w, \text{ allora esiste un sottoinsieme finito } \Gamma_0 \subseteq \Gamma \text{ tale che } \Gamma_0 \models w     
+    \end{equation}
+\end{myintuition}
+
+\begin{myobservation}[(Compattezza)]
+    Consideriamo l'infinità come la possibilità di descrivere un altro fatto nel processo di ragionamento. Ad esempio, i numeri naturali sono infiniti, e non importa quanti numeri siano stati utilizzati finora, è sempre possibile fornirne uno nuovo. La compattezza afferma che la conseguenza logica deve essere calcolata utilizzando un insieme finito di assunzioni. La conseguenza logica per un insieme ipoteticamente infinito di formule non è un comportamento considerato di interesse.
+\end{myobservation}
+
+\begin{myintuition}[(Monotonia)]
+    \begin{equation}
+        \text{Se } \Gamma \models w, \text{ allora } \Gamma \cup \Sigma \models w
+    \end{equation}
+\end{myintuition}
+
+\begin{myobservation}[Monotonia]
+    La monotonia implementa una proprietà fondamentale ed intuitiva della conoscenza, ad esempio della conoscenza scientifica. Se la conoscenza aumenta, ciò che può essere derivato da essa attraverso il ragionamento può solo aumentare. Al massimo può rimanere invariato se il nuovo pezzo di conoscenza era implicito in ciò che è già noto.
+\end{myobservation}
+
+\begin{myintuition}[(Non Monotonia)]
+    \begin{equation}
+        \text{Se } \Gamma \models w \text{ e } \Gamma \cup \Sigma \not\models w        
+    \end{equation}
+\end{myintuition}
+
+\begin{myobservation}[(Non Monotonia)]
+    Nonostante la sua intuitività, la monotonia è una proprietà che nella maggior parte dei casi non si verifica. Questo è ampiamente il caso del ragionamento di buon senso, un argomento ampiamente studiato nell'ambito dell'Intelligenza Artificiale. Quante volte il fatto di apprendere qualcosa di nuovo ci ha costretti a cambiare idea? Un esempio storico di ragionamento di buon senso non monotonico nell'ambito dell'IA è che la credenza che tutti gli uccelli volino può essere smentita dal fatto che i pinguini sono uccelli e non volano. La conoscenza scientifica è ricca di esempi in cui le conoscenze precedenti sono state smentite da prove successive, e molte teorie nella filosofia della scienza sono state costruite su questo principio. L'esempio standard della non monotonia della conoscenza scientifica è la scoperta che è la Terra a ruotare attorno al Sole, e non il contrario. Dal punto di vista pratico, tutte le logiche che formalizzano il ragionamento matematico e vengono utilizzate nei metodi formali, ad esempio nei linguaggi di programmazione, sono logiche monotoniche, mentre la maggior parte delle logiche definite nell'ambito dell'IA sono non monotoniche. La negazione per mancato successo, come implementata nei database relazionali, è non monotonica.
+\end{myobservation}
+
+\section{Logica}
+Il viaggio è completo. Dobbiamo solo mettere insieme tutto.
+
+\begin{myobservation}[(I ruoli di D, L, I, \(\models \), M, T)]
+    Le definizioni fornite nelle sezioni precedenti possono essere riassunte nella seguente figura.
+    \begin{equation}
+        \includegraphics[height=15ex]{imgs/eq8.20.png}
+    \end{equation}
+    con $L = L_a \cup L_c$.
+
+    Confronta anche con la Figura 5.7 per i modelli del mondo. Nell'Equazione (8.20), D definisce l'insieme dei fatti f di potenziale interesse, $L_a$ l'insieme delle affermazioni $a$ di potenziale interesse, L le formule $w$ che possiamo utilizzare per descrivere i fatti in M, $\models$ le condizioni in base alle quali qualsiasi $w \in L$ è implicato da M, M è l'insieme di fatti su cui ci stiamo concentrando e, infine, T è la teoria che descrive M. La differenza chiave rispetto all'equazione corrispondente del modello del mondo è che qui la relazione tra i modelli è stata estesa dalla funzione di interpretazione alla relazione di implicazione.
+\end{myobservation}
+
+\begin{mydefinition}[(Logica)]
+    Prendi qualsiasi rappresentazione come da Equazione (8.20). Allora
+    \begin{equation}
+        \hat{L} = \langle L, D, I, \models \rangle
+    \end{equation}
+    è una logica.
+\end{mydefinition}
+
+\begin{myobservation}[(Logica)]
+    Nell'Equazione (8.20), i componenti di una logica, cioè D, L, I, $\models$, definiscono le regole generali che vengono seguite nella definizione dei meccanismi per la rappresentazione e il ragionamento sui modelli del mondo, cioè le rappresentazioni. Sono definiti a priori, estendendo i modelli del mondo, di solito da esperti di rappresentazione della conoscenza e logica, come strumenti generali da utilizzare da parte dei professionisti. Forniscono l'infrastruttura generale di modellazione e ragionamento che consente di rappresentare e ragionare sulle rappresentazioni dei problemi del mondo reale. Forniscono anche i meccanismi attraverso i quali è possibile confrontare e, eventualmente, unire due rappresentazioni. Gli sviluppatori di software solitamente studiano questi modelli durante corsi di informatica o intelligenza artificiale e li utilizzano così come sono nello sviluppo di sistemi; pensate, ad esempio, all'ampio utilizzo di modelli ER e UML, così come di logiche.
+\end{myobservation}
+
+\begin{myobservation}[(Logica e Modello del Mondo)]
+    Se $\hat{L} = \langle L, D, I, \models \rangle$ e $L = L_A$, allora $\hat{L} = \hat{W}$ con $\hat{W} = \langle L_A, D, I_A \rangle$. In effetti, la relazione di implicazione si riduce alla funzione di interpretazione, vedere Equazione (8.11).
+\end{myobservation}
+
+\begin{myobservation}[(Da rappresentazioni mentali a modelli del mondo a logiche)]
+    I modelli del mondo forniscono meccanismi generali per generare rappresentazioni non ambigue, cioè teorie di rappresentazioni mentali. Le logiche forniscono i meccanismi per ragionare sulle teorie e sui modelli che descrivono.
+\end{myobservation}
+
+\begin{myobservation}[(Definire un modello tramite una teoria)]
+    Il modo più comune per modellare il mondo è definire un insieme di affermazioni, ciò che chiamiamo una teoria. In altre parole, costruiamo un modello M selezionando un sottoinsieme T di L. Questo è l'approccio comune quando il compito consiste nella rappresentazione da zero di una parte specifica del mondo di interesse.
+
+    Tuttavia, talvolta, ci viene data una teoria predefinita T e un modello predefinito M e ci viene chiesto come sono correlati. In tal caso, abbiamo quanto segue.
+\end{myobservation}
+
+\begin{mydefinition}[(Correttezza e completezza di una teoria T rispetto a un modello M)]
+    Sia $L^\wedge = < L, D, I, \models >$ una logica. Siano $T \subseteq L$ e $M \subseteq D$ una teoria e un modello, rispettivamente. Allora abbiamo due situazioni possibili:
+    \begin{itemize}
+        \item Correttezza: $M \models T$, in tal caso diciamo che T è corretta rispetto a M, o che M è un modello per T.
+        \item Completezza: Se, per tutti i fatti $f \in M$, esiste una formula $w \in L_A$ tale che $I(w) = f$, in tal caso diciamo che T è completa rispetto a M.
+    \end{itemize}
+
+    Le nozioni di incorrettezza e incompletezza sono definite in modo ovvio.
+\end{mydefinition}
+
+\chapter{Logica - Rappresentazione intenzionale}
 
 \end{document}
