@@ -174,10 +174,10 @@ Il punto di partenza sono le rappresentazioni mentali analogiche, poiché le nos
 \begin{myexample}[(I fatti di un modello rappresentato nella Figura 3.1)]
     Un modello, uno tra molti altri, della situazione rappresentata nella Figura 3.1 potrebbe contenere, ad esempio, i seguenti fatti:
     \begin{verbatim}
-    Sofia è una persona         Paolo è un uomo
-    Rocky è un cane             Sofia è vicina a Paolo
-    Sofia ha i capelli biondi   Sofia è un'amica di Paolo
-    Rocky è un animale          Rocky è il cane di Sofia
+    Sofia is a person           Paolo is a man
+    Rocky is a dog              Sofia is near to Paolo
+    Sofia has blond hair        Sofia is a friend of Paolo
+    Rocky is an animal          Rocky is Sofia's dog
     \end{verbatim}
 \end{myexample}
 
@@ -470,7 +470,7 @@ Secondo l'Equazione (3.1), un modello \verb|M| è deifinito come \verb|M = {f}|,
 Secondo l'Equazione (3.2), una teoria assertiva $\mathcal{T}_A$ è definita come $\mathcal{T}_A=\{a\}$, dove $\{a\}$ è un insieme di affermazioni che descrivono i fatti che sono veri in una determinata situazione.
 
 \begin{mydefinition}[(Linguaggio assertivo)]
-    Un linguaggio assertivo $mathcal{L}_A$è un insieme di affermazioni $\{a\}$
+    Un linguaggio assertivo $\mathcal{L}_A$ è un insieme di affermazioni $\{a\}$
     \begin{equation}
         \mathcal{L}_A = \{a\}
     \end{equation}
@@ -1820,5 +1820,444 @@ Il viaggio è completo. Dobbiamo solo mettere insieme tutto.
 \end{mydefinition}
 
 \chapter{Logica - Rappresentazione intenzionale}
+
+Dobbiamo fornire i dettagli su come calcolare l'implicazione, partendo da una descrizione di come $L$ e $I$ sono costruiti.
+
+\section{Dominio}
+L'obiettivo è avere un linguaggio più espressivo, se confrontato con quello di un modello del mondo, per descrivere un dominio di interpretazione, lasciando quest'ultimo invariato. Vedere la Sezione 6.1.
+
+\section{Linugaggio di rappresentazione}
+\begin{mydefinition}[(Linguaggio, rappresentazione intensionale)]
+    Sia $L = L_a \cup L_c$ un linguaggio. La sua rappresentazione intensionale è data da
+    \begin{equation}
+        L^i = \langle L_a^i, L_c^i \rangle
+    \end{equation}
+    dove $L_{a}^i$ è il linguaggio delle formule atomiche, definito in modo intensionale, e $L_{c}^i$ è il linguaggio delle formule complesse, definito in modo intensionale. $L_{a}^i$ e $L_{c}^i$ sono anch'essi coppie.
+\end{mydefinition}
+
+\begin{mydefinition}[(Linguaggio di formule atomiche, rappresentazione intensionale)]
+    Sia $L^i = \langle L_{a}^i, L_{c}^i \rangle$ un linguaggio definito in modo intensionale. Allora la rappresentazione intensionale di $L_{a}^i$ è data da
+    \begin{equation}
+        L_{a}^i = \langle A_{a}^i, \{FR\}_{a}^i \rangle
+    \end{equation}
+    dove: $A_{a}^i$ è l'alfabeto di $L_{a}^i$ e $\{FR\}_{a}^i$ è l'insieme di regole di formazione per $L_{a}^i$ con
+    \begin{align*}
+        &A_{a}^i = \langle E, \{C\}, \{R\} \rangle \\
+        &L_{a}^e = \{w : w \in C(\{FR\}_{a}, A_{a})\}
+    \end{align*}
+    dove 
+    \begin{itemize}
+        \item $E$ è un insieme di (nomi di) entità,
+        \item $\{C\}$ è un insieme di concetti, dove un concetto è il nome di una classe,
+        \item $\{P\}$ è un insieme di proprietà, dove una proprietà è il nome di una relazione, e infine,
+        \item $C(\{FR\}_{a}, A_{a})$ è la chiusura transitiva di $\{FR\}_{a}$ su $A_{a}$.
+    \end{itemize}
+\end{mydefinition}
+
+\begin{mydefinition}[(Regola di formazione)]
+    i limitiamo a linguaggi con grammatiche context-free (grammatiche libere dal contesto). Di conseguenza, prendiamo $\{FR\}_{a} = \{R_{a}\}$, dove ciascuna regola di formazione $R_{a}$ ha la forma
+    \begin{verbatim}
+                <expression> ::= -expression-
+    \end{verbatim}
+    dove, seguendo la notazione$^1$ BNF:
+    \begin{itemize}
+        \item $\verb|<expression>|$ è un'espressione non terminale, e le espressioni non terminali sono racchiuse tra parentesi angolari <>.
+        \item I simboli che non appaiono sul lato sinistro di una regola sono chiamati terminali.
+        \item $\verb|-expression-|$ è composta da una o più sequenze di simboli, sia terminali che non terminali.
+        \item $\verb|::=|$ permette a $\verb|<expression>|$ di essere sostituito con una sequenza che si trova in $\verb|-expression-|$.
+        \item Le sequenze in $\verb|-expression-|$ sono separate dalla barra "$|$", che indica una scelta nella sostituzione.
+    \end{itemize}
+\end{mydefinition}
+
+\begin{myobservation}[(Regola di formazione generica)]
+    Una generica regola di formazione $R_{ia}$ può essere visualizzata come
+    \begin{equation*}
+        \verb+<NT> ::= <NT+_{1}\verb+> | ... | <NT+_1\verb+> | T+_1\verb+ | ... | T+_m\verb+|+
+    \end{equation*}
+    con la possibilità di nessuna occorrenza di sequenze terminali o non terminali.
+\end{myobservation}
+
+
+\begin{myobservation}[(Chiusura transitiva)]
+    $C(\{FR\}_{c}, L_{a})$ è l'insieme minimo di formule che possono essere ottenute applicando ricorsivamente le regole di $\{FR\}_{c}$ ai loro stessi risultati, partendo da $L_{a}$. Le formule atomiche sono "scatole nere" per $\{FR\}_{c}$, nel senso che le regole in $\{FR\}_{c}$ possono comporle in formule complesse, ma non possono modificarne la struttura interna.
+\end{myobservation}
+
+\begin{myobservation}[(Infinità della chiusura transitiva)]
+    Le regole di formazione, come da Definizione 9.3, sono ricorsive, vedi anche Osservazione 9.1, nel senso che possono esserci non terminali che appaiono sia a sinistra che a destra di una regola di produzione. Ciò apre la possibilità di elementi di lunghezza indefinita. Quindi, l'insieme $C(\{FR\}_{c}, L_{a})$ nel caso di regole di produzione ricorsive, come è spesso il caso, è infinito.
+\end{myobservation}
+
+\begin{myobservation}[(Alfabeto)]
+    L'alfabeto $A_{a}$ è infinito.
+\end{myobservation}
+
+\begin{myexample}[(Linguaggio di formule atomiche, regole di generazione della conoscenza)]
+    Considera il linguaggio definito nell'Esempio 8.2 che consente formule complesse atomiche della forma $C_1 \land C_2$ dove $C_i$ è un concetto. La BNF che genera questo linguaggio è composta dalle seguenti due regole di formazione:
+    \begin{equation*}
+        \begin{aligned}
+            &\verb|<awff> ::= <concept>| \\
+            &\verb|<awff> ::= <awff>| \sqcap \verb|<awff>|
+        \end{aligned}
+    \end{equation*}
+    Dove <concept> è un simbolo non terminale che rappresenta qualsiasi elemento $C$ dell'alfabeto. $\sqcap$ è un simbolo terminale che, come tale, non può essere ulteriormente scomposto.
+\end{myexample}
+
+\begin{myexample}[(Linguaggio di formule atomiche, regole di generazione dei dati)]
+    TODO by prf
+\end{myexample}
+
+\begin{myobservation}[(Applicazione delle regole di formazione, generazione, riconoscimento)]
+    Le regole di formazione possono essere applicate per due motivi. Il primo, come nel caso dell'Esempio 9.1 e dell'Esempio 9.2, è nel processo di generazione della chiusura; il secondo è nel processo di riconoscimento per determinare se una certa formula di input appartiene alla chiusura. Le due serie di regole di formazione, sebbene catturino la stessa intuizione, lavorano in direzioni opposte, la prima partendo dai terminali e sviluppando elementi sempre più complessi della chiusura (generando, nel caso di regole di produzione ricorsive, un insieme infinito), la seconda scomponendo l'input complesso fino agli elementi terminali. Il fallimento in questo processo significa che l'input non appartiene alla chiusura. Questo processo verrà utilizzato di seguito nella definizione della funzione di interpretazione e della relazione di implicazione.
+\end{myobservation}
+
+\begin{myexample}[(Regole di formazione, generazione e riconoscimento)]
+    Le seguenti due regole di formazione per la generazione della chiusura:
+    \begin{equation*}
+        \begin{aligned}
+            &\verb|<awff> ::= <concept>| \\
+            &\verb|<awff> ::= <awff>| \sqcap \verb|<awff>|
+        \end{aligned}
+    \end{equation*}
+    possono essere riscritte come le seguenti regole di riconoscimento per la stessa chiusura:
+    \begin{equation*}
+        \begin{aligned}
+            &W(\verb|<awff>|) &&::= W(\verb|<concept>|) \\
+            &W(\verb|<awff1>| \sqcap \verb|<awff2>|) &&::= W(\verb|<awff1>|) \text{ e } W(\verb|<awff2>|)
+        \end{aligned}
+    \end{equation*}
+    Dove $W$ verifica la correttezza dell'input della formula. $W$ restituisce "true" se il processo di riconoscimento si conclude correttamente e "false" altrimenti.
+
+\end{myexample}
+
+\begin{mydefinition}[(Linguaggio di formule complesse, regole di formazione)]
+    Sia $L^i = \langle L_{a}^i, L_{c}^i \rangle$ un linguaggio definito in modo intenzionale. Allora la rappresentazione intenzionale di $L_{c}^i$ è data da
+    \begin{equation}
+        L_{c}^i = \langle L_{a}^e, \{FR\}_{c} \rangle
+    \end{equation}
+    dove $\{FR\}_{c}$ è l'insieme di regole di formazione per $L_{c}^e$ con
+    \begin{equation*}
+        L_{c}^e = \{w : w \in C(\{FR\}_{c}, L_{a}^e)\}
+    \end{equation*}
+    dove: $L_{ea}$ è come definito in Definizione 9.2, e $C(\{FR\}_{c}, L_{a}^e)$ è la chiusura transitiva di $\{FR\}_{c}$ su $L_{a}$.
+\end{mydefinition}
+
+\begin{myexample}[(Linguaggio di formule complesse, rappresentazione intenzionale)]
+    Considera il linguaggio definito nell'Esempio 8.6 che consente formule complesse atomiche della forma $A_1 \text{ xor } A_2$ dove $A_i$ è una qualsiasi formula. La BNF che genera questo linguaggio è composta dalle seguenti due regole di formazione:    
+    \begin{equation*}
+        \begin{aligned}
+            &\verb|<wff> ::= <awff>| \\
+            &\verb|<wff> ::= <wff> xor <wff>|
+        \end{aligned}
+    \end{equation*}
+    Dove $\verb|<awff>|$ è un simbolo non terminale che può essere istanziato con qualsiasi formula atomica in $L_{a}$.
+\end{myexample}
+
+\section{Funzione di interpretazione}
+
+\begin{mydefinition}[(Funzione di interpretazione, rappresentazione intenzionale)]
+    Sia $L = L_{a} \cup L_{c}$ un linguaggio con $L_{a} = L_A \cup L_{AC}$. Sia la funzione di interpretazione $I : L_{ia} \to D$ definita come $I = I_A \circ I_{AC}$, con $I_{AC} : L_{a} \to L_A$ e $I_A : L_A \to D$ (Definizione 8.4). Allora, la rappresentazione intenzionale di $I$ è data da
+    \begin{equation}
+        I^i = \langle L_{a}, \{FR\}_I \rangle
+    \end{equation}
+    dove $\{FR\}_I$ è l'insieme di regole di formazione per $I^e$ con
+    \begin{equation*}
+        I^e = \{<w, f> : w \in L_{a}, f \in D, <w, f> \in C(\{FR\}_I, L_{a})\}
+    \end{equation*}
+    dove $C(\{FR\}_I, L_{a})$ è la chiusura transitiva di $\{FR\}_I$ su $L_{a}$.
+\end{mydefinition}
+
+\begin{myobservation}[(Funzione di interpretazione, regole di riconoscimento)]
+    Le regole di riconoscimento per la funzione di interpretazione $R_I \in \{FR\}_I$ sono definite come segue:
+    \begin{equation}
+        \begin{aligned}
+            &I_{AC}(T) &&::= I_A(<T>) \\
+            &I_{AC}(<NT>) &&::= I_{AC}(<NT1>) | \ldots | I_{AC}(<NT1>)
+        \end{aligned}
+    \end{equation}
+    dove $<NT>$ sono simboli non terminali per $I_{AC}$, T sono simboli terminali per $I_{AC}$ e $<T>$ sono simboli non terminali per $I_A$.
+\end{myobservation}
+
+\begin{myobservation}[(Funzione di interpretazione, regole di riconoscimento)]
+    Nelle regole di riconoscimento della funzione di interpretazione, $I_{AC}$ si applica ai non terminali, mentre $I_A$ si applica ai terminali di $I_{AC}$, che sono effettivamente non terminali per $I_A$. In questo contesto, vedere la prima regola di produzione nell'Equazione (9.5), dove la stessa espressione T viene trasformata da terminale di $I_{AC}$ a non terminale di $I_A$.
+\end{myobservation}
+
+\begin{myexample}[(Funzione di interpretazione, regole di riconoscimento, operatori di dati)]
+    TODO by prof
+\end{myexample}
+
+\begin{myexample}[(Formule atomiche, regole di riconoscimento, operatori di conoscenza)]
+    Considera l'insieme di formule definite nell'Esempio 8.2, che sono nella forma $C_1 \sqcap C_2$, dove $C_i$ può essere una affermazione atomica così come un'affermazione complessa. Considera le regole di formazione che le generano. Formalizziamo l'intuizione che $C_1 \sqcap C_2$ denoti l'intersezione delle interpretazioni di due affermazioni atomiche come segue:
+    \begin{equation*}
+        \begin{aligned}
+            &I_{AC}(<\text{concept}>) &&::= I_{A}(<\text{concept}>)\\
+            &I_{AC}(<\text{awff}> \sqcap <\text{awff}>) &&::= I_{AC}(<\text{awff}>) \cap I_{AC}(<\text{awff}>)
+        \end{aligned}
+    \end{equation*}
+    Le sequenze di riscrittura possono essere implementate come segue:
+    \begin{align*}
+        I(C1 \sqcap C2) &= I_{AC}(C1 \sqcap C2) = I_A(C1) \cap I_A(C2) = C1 \cap C2
+    \end{align*}
+    Pertanto, ad esempio:
+    \begin{align*}
+        &I( (person \sqcap woman) \sqcap dog) =\\
+        &I_{AC}( (person \sqcap woman) \sqcap dog) =\\
+        &I_{AC}(person \sqcap woman) \cap I_A(dog) =\\
+        &I_A(person) \cap I_A(woman) \cap dog =\\
+        &(person \cap woman) \cap dog =\\
+        &woman \cap dog = \emptyset
+    \end{align*}
+    dove abbiamo supposto di sapere che le donne sono persone e i cani sono disgiunti dalle persone.
+\end{myexample}
+
+
+\begin{myobservation}[(Applicazione delle regole di formazione dell'interpretazione)]
+    Seguendo quanto menzionato nell'Osservazione 6.11, l'Equazione (6.7) mostra come $I$ venga applicato in modo ricorsivo applicandolo ai componenti della sua affermazione di input fino alle affermazioni. In questo processo, i suoi componenti vengono applicati secondo necessità, ovvero $I_e$ alle entità, $I_C$ ai concetti e $I_P$ alle proprietà. L'Esempio 9.6 mostra (seconda riga) come il processo menzionato nell'Osservazione 6.11 si generalizzi alle formule atomiche complesse. L'idea generale è che $I_{AC}$ viene applicato finché non si arriva agli elementi singoli dell'alfabeto, dove, in quel momento, viene applicata la corretta funzione di interpretazione del componente.    
+\end{myobservation}
+
+\begin{myobservation}[(Annidamento delle regole di formazione)]
+    Il processo evidenziato sopra può essere annidato a qualsiasi livello. In effetti, $I_A$ potrebbe essere nuovamente un insieme di regole di formazione che consentono regole atomiche complesse più raffinate e così via, per qualsiasi livello di annidamento. Ciò consente la generazione di manipolazioni di modelli del mondo sempre più complesse.
+\end{myobservation}
+
+\begin{myexample}[(Formule atomiche, regole di formazione, operatori di dati)]
+    [DA COMPLETARE]
+\end{myexample}
+
+
+\section{Entailment}
+
+\begin{mydefinition}[(Relazione di implicazione, rappresentazione intenzionale)]
+    Sia $M \subseteq D$ un modello e $T \subseteq L$ una teoria. Sia la relazione di implicazione definita come
+    \begin{align*}
+        \models  \:\: \subseteq M \times T
+    \end{align*}
+    come da Definizione 8.5. Allora, la rappresentazione intenzionale di $\models$ è
+    \begin{equation}
+        \models^i = \langle L, D, \{FR\}_{\models} \rangle
+    \end{equation}
+    dove $\{FR\}_{\models}$ è l'insieme di regole di formazione per $\models_e$, con
+    \begin{equation*}
+        \models^e = \{< f, w > : f \in M, w \in L, < f, w > \in C(\{FR\}_{\models}, D, L)\}
+    \end{equation*}
+    dove $C(\{FR\}_{\models}, L)$ è la chiusura transitiva di $\{FR\}_{\models}$ su $L$.
+\end{mydefinition}
+
+
+\begin{mydefinition}[(Relazione di implicazione, regola di formazione)]
+    Una regola di formazione per la relazione di implicazione $R\models \in \{FR\}_{\models}$ è definita come:
+    \begin{equation}
+        \begin{aligned}
+            &M \models T &&::= I(<T>) \\
+            &M \models <NT> &&::= M \models <NT_1> | \ldots | M \models (<NT_1>)
+        \end{aligned}
+    \end{equation}
+    dove $<NT>$ sono simboli non terminali per $\models$, T sono simboli terminali per $\models$, e $<T>$ sono simboli non terminali per $I$.
+\end{mydefinition}
+
+\begin{myobservation}[(Relazione di implicazione, regole di formazione)]
+    Leggi Osservazione 9.7. Le stesse considerazioni si applicano, mutatis mutandis.    
+\end{myobservation}
+
+\begin{myexample}[(Implicazione)]
+    Prendi $L_{a}$, $D$, $I$ come da Esempio 9.5. Prendi $L = L_{a} \cup L_{c}$ per essere il linguaggio di rappresentazione definito in 9.4 (con $L_{a}$ uguale a quanto in Esempio 9.5), dove le regole di formazione per $L_{ic}$ sono come segue (come da Esempio 9.4 riportato qui per completezza):
+    \begin{align*}
+        <wff> &::= <awff> \\
+        <wff> &::= <wff> \text{ xor } <wff>
+    \end{align*}
+    Quindi definiamo la relazione di implicazione con le seguenti regole di riconoscimento:
+    \begin{align*}
+        &M \models <wff> ::= I(<awff>) \\
+        &M \models <wff1> \text{ xor } <wff2> &::= M \models <wff1> \text{ and } M \not\models <wff2> | \\
+        &&M \not\models <wff1> \text{ and } M \models <wff2>
+    \end{align*}
+    Abbiamo i seguenti esempi (dove $a$, $a_i$ sono formule atomiche).
+    \begin{align*}
+        &M \models a \text{ se } I(a) \in M \\
+        &M \not\models a \text{ se } I(a) \notin M \\
+        &M \models a_1 \text{ xor } a_2 \text{ se } I(a_1) \in M \text{ and } I(a_2) \notin M | I(a_1) \in M \text{ and } I(a_2) \notin M \\
+        &M \models \{w_1, w_2\} \text{ se } M \models w_1 \text{ and } M \models w_2
+    \end{align*}
+\end{myexample}
+
+\begin{myobservation}[(Teoria)]
+    La nozione di teoria, come da Definizione 8.2, e la sua caratterizzazione come un insieme di assiomi, come da Terminologia 8.3, non cattura l'idea di una teoria costituita da tutti i teoremi, cioè tutte le affermazioni che sono considerate valide come parte della chiusura rispetto alle regole di formazione di implicazione.
+\end{myobservation}
+
+\begin{mydefinition}[(Teoria, presentazione finita)]
+    Una teoria è un insieme di formule chiuso sotto la conseguenza logica, cioè $T$ è una teoria se e solo se $T \models w$ implica che $w \in T$. L'insieme di assiomi $T_0$ da cui $T$ è generato tramite implicazione è chiamato presentazione finita di $T$. Le due nozioni di teoria vengono usate in modo interscambiabile. Tuttavia, non tutte le teorie possono essere generate da un insieme finito di assiomi.
+\end{mydefinition}
+
+\begin{mydefinition}[(Teoria, assiomatica finita)]
+    Una teoria $T$ è finitamente assiomatizzabile se può essere generata da un insieme finito di assiomi.
+\end{mydefinition}
+
+
+\section{Logica}
+
+\begin{mydefinition}[(Logica, rappresentazione intenzionale)]
+    Sia $W^i = \langle L_{a}^i, D^i, I_{a}^i \rangle$ un modello del mondo con $D^i = \langle E, \{C\}, \{R\} \rangle$. Allora, sia
+    \begin{equation*}
+        \hat{L} = \langle L, D, I, \models \rangle
+    \end{equation*}
+    una logica definita per lo stesso dominio di interpretazione $D_i$ di $\hat{W^i}$. Quindi, la rappresentazione intenzionale $\hat{L}^i$ di $\hat{L}$ è definita come:
+    
+    \begin{align}
+        \hat{L}^i = \langle L^i, D^i, I^i, \models \rangle \text{, dove } \:\: L^i = \langle L_{a}^i, L_{c}^i \rangle
+    \end{align}
+    e
+    \begin{align*}
+        L_{a}^i = \langle A_a, \{FR\}_a \rangle \\
+        L_{c}^i = \langle L^e_a, \{FR\}_c \rangle \\
+        I^i = \langle L^e_a, \{FR\}_I \rangle \\
+        \models^i = \langle L^e, \{FR\}_{\models} \rangle
+    \end{align*}
+    $\hat{L}^i, L^i_a, L^i_c, I^i, \models^i$ sono la struttura della logica $\hat{L}$, del linguaggio delle formule atomiche $L_a$, del linguaggio delle formule complesse $L_c$, della funzione di interpretazione $I$ e della relazione di implicazione $\models$, rispettivamente.
+\end{mydefinition}
+
+\begin{myterminology}[(Dati, conoscenza, logica mista)]
+    Parliamo di logiche, teorie e modelli di dati, conoscenza e logiche miste con il significato ovvio.
+\end{myterminology}
+
+\begin{myobservation}[(Logica, vincoli di progettazione e scelte)]
+    Lo stencil della logica $L^i$ è tutto ciò di cui abbiamo bisogno per implementare una logica e usarla per eseguire il ragionamento. Tuttavia, ci sono vincoli da tenere presente, in particolare quelli relativi alla funzione di interpretazione e alla relazione di implicazione. Ci sono anche scelte importanti da effettuare, in particolare su quale modello del mondo e logica dovrebbero essere selezionati, come implementarli e come integrarli.
+\end{myobservation}
+
+\begin{myobservation}[(Definizione di una logica)]
+    La definizione di una logica è articolata nei seguenti passi:
+    \begin{enumerate}
+        \item Definire $A_a$. Questo fornisce il linguaggio per fare affermazioni sui fatti nel mondo. In seguito, $A_a$ sarà definito in termini di un $\hat{KG}$.
+        \item Definire $L_a^i$ e, in particolare, $\{FR\}_a$. Questo fornisce il linguaggio per produrre descrizioni complesse dei fatti nel mondo.    
+        \item Convalidare la definizione di $A_a$ e $L_a^i$. Ciò viene fatto tramite la definizione di $I_i$ dove l'obiettivo è assicurarsi che la notazione utilizzata per $A_a$ e $L_a^i$ sia intuitiva e rappresentativa dei fatti del mondo e che tutti i vincoli su $I^i$ siano soddisfatti.
+        \item Definire $L_c^i$. Questo fornisce il linguaggio per costruire descrizioni complesse dei fatti nel mondo, come rappresentato nel $\hat{KG}$. Questo di solito viene fatto utilizzando un linguaggio logico che formalizza una parte mirata del linguaggio naturale.
+        \item Definire $\models^i$, cioè le regole per il ragionamento, basate sulla definizione di $L_c^i$. In particolare, l'idea chiave è che la definizione dell'implicazione è composita, seguendo la composizionalità delle regole di generazione per $L_c^i$.
+    \end{enumerate}
+    Dato un sistema logico, è possibile usarlo per ragionare sul mondo. Questo è l'argomento della prossima sezione.
+\end{myobservation}
+
+\section{Usare la logica}
+La logica consente di effettuare ragionamenti complessi sui modelli del mondo. Vediamo come questo può essere implementato nella pratica.
+
+\begin{myintuition}[(Risolvere problemi usando la logica)]
+    Questo è molto simile a quanto accade con il modello del mondo. Visto dall'esterno, l'utente non noterà differenze, ma solo un aumento nella capacità di ragionamento. Vedi Intuition 6.6.
+\end{myintuition}
+
+\begin{myterminology}[(Linguaggio del modello del mondo, linguaggio del ragionamento)]
+    Nelle seguenti assumeamo che $L_Q = L_A = L_W$, dove $L_W$ è il linguaggio di rappresentazione del modello del mondo, e che $L_T = L_R$, dove $L_R$ è il linguaggio di rappresentazione del ragionamento. Si noti che, rispetto alla Terminology 6.3, assumiamo l'esistenza di $LR$ e che $L_W \neq LR$. Questo è motivato dal fatto che il compito di rappresentare il mondo nel modello del mondo e il compito di ragionare sul mondo sono di solito implementati da due sistemi indipendenti con un terzo sistema esplicitamente dedicato a colmare i due sistemi e a tradurre $L_W$ in $L_R$. Vedi anche Intuition 9.3.
+\end{myterminology}
+
+\begin{myintuition}[(Logiche, problemi di ragionamento)]
+    Ma quali domande e quali risposte? Tutte le logiche, indipendentemente dalle specifiche della loro definizione, come da Definizione 9.10, forniscono risposte a sei domande fondamentali che enunciamo di seguito come problemi di ragionamento. Supponiamo di avere lo stencil $\hat{L}^i =< L^i, D^i, I^i, \models^i>$ e che abbiamo un insieme ${M}$ di modelli con $M \subseteq D$ e un insieme di teorie $T \subseteq L_A$. Allora abbiamo quanto segue:
+\end{myintuition}
+
+\begin{myreasoningproblem}[(Verifica del modello)]
+    Dati $T$ e $M$, verificare se $M \models T$.
+\end{myreasoningproblem}
+
+
+\begin{myreasoningproblem}[(Soddisfacibilità)]
+Dato T, verifica se esiste un M tale che $M \models T$.
+\end{myreasoningproblem}
+
+\begin{myreasoningproblem}[(Validità)]
+    Dato T, verifica se esiste un M tale che $M \models T$.
+\end{myreasoningproblem}
+
+\begin{myreasoningproblem}[(Insoddisfacibilità)]
+    Dato T, verifica se non esiste alcun M tale che $M \models T$.
+\end{myreasoningproblem}
+
+\begin{myreasoningproblem}[(Conseguenza Logica)]
+    Dati T1, T2 e un insieme di modelli di riferimento {M}, verifica se $T1 \models^{M} T2$.
+\end{myreasoningproblem}
+
+\begin{myreasoningproblem}[(Equivalenza Logica)]
+    Dati T1, T2 e un insieme di modelli di riferimento {M}, verifica se $T1 \models^{M} T2$ e $T2 \models^{M} T1$.
+\end{myreasoningproblem}
+
+
+\subsubsection{Proposizione 9.1}
+Se una formula è valida, allora è anche soddisfacibile e non insoddisfacibile. In altre parole:
+\[ \text{Validità} \supset  \text{Soddisfacibilità} \supset  \text{not Insoddisfacibilità} \]
+
+\subsubsection{Proposizione 9.2}
+Se una formula è insoddisfacibile, allora non è nemmeno soddisfacibile e nemmeno valida. In altre parole:
+\[ \text{Insoddisfacibilità} \supset  \text{not Soddisfacibilità} \supset  \text{not not Validità} \]
+
+
+\begin{myobservation}[(Logiche vs. Modelli del Mondo)]
+    I modelli del mondo (vedi Intuizione 6.7) affrontano i primi quattro problemi di ragionamento della logica, esposti nello stesso modo. La differenza chiave e fondamentale è che nei modelli del mondo, l'implicazione si riduce all'inclusione di insiemi, ovvero alla verifica se l'interpretazione di una formula appartiene a un modello (vedi Definizione 6.11). Sebbene molto più semplice del ragionamento logico, fornisce la base su cui è implementato il ragionamento logico.
+\end{myobservation}
+
+\begin{myobservation}[(Problemi di Ragionamento, Dipendenza dalla Logica)]
+    Come le sezioni seguenti chiariranno, diverse logiche presentano istanze specifiche e diverse dei problemi di ragionamento definiti nell'Intuizione 9.2. Questo è in realtà il motivo principale per cui esistono modelli del mondo multipli. Nonostante il fatto che risolvano tutti gli stessi sei problemi fondamentali, lo fanno in contesti specifici e spazi problemi per i quali sono tarati. Mostrare e discutere queste specificità sarà l'argomento delle sezioni seguenti.    
+\end{myobservation}
+
+\clearpage
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\linewidth]{imgs/img9.1.png}
+    \caption{Risolvere problemi utilizzando la logica}
+\end{figure}
+
+\begin{myintuition}[(Un'architettura per risolvere problemi usando la logica)]
+    L'architettura che supporta l'uso della logica, come specificato in Intuizione 9.1, è rappresentata nella Figura 9.1. Possiamo identificare tre componenti principali, come segue:
+
+    \begin{itemize}
+        \item Un modello del mondo che codifica i dati e le conoscenze disponibili sul mondo e consente una ragionevole riflessione su di essi (vedi i problemi di ragionamento in Intuizione 6.7);
+        \item Un motore di inferenza logica che implementa uno o più dei problemi di ragionamento definiti in Intuizione 6.7;
+        \item Un motore di traduzione del linguaggio di rappresentazione che implementa la traduzione bidirezionale tra LW e LR.
+    \end{itemize}
+    Alcune osservazioni. Il modello del mondo e i motori di ragionamento vengono selezionati all'inizio, prima che il sistema venga messo in funzione. La scelta del modello del mondo e del modello logico dipende dalle specifiche del problema da risolvere. L'Osservazione 9.18 di seguito descrive le questioni e i compromessi che devono essere presi in considerazione quando si effettua la scelta del modello logico.
+\end{myintuition}
+
+\begin{myobservation}[(Procedura decisionale, motore di inferenza logica)]
+    Una procedura decisionale è un algoritmo che, per una determinata logica, risolve uno dei sei problemi fondamentali specificati in Intuizione 6.7. Un motore di inferenza è di solito una procedura decisionale con due caratteristiche aggiunte:
+\begin{itemize}
+    \item Può risolvere più di un problema di ragionamento, sfruttando il fatto che, in alcune logiche (ma non tutte), la soluzione di un problema di ragionamento può essere ridotta alla soluzione di un altro problema di ragionamento.
+    \item Implementa diverse euristiche il cui obiettivo principale è accelerare il tempo di calcolo.
+\end{itemize}
+\end{myobservation}
+
+\begin{myobservation}[(Motore di traduzione del linguaggio di rappresentazione)]
+    Come sarà discusso in dettaglio, il lavoro sui motori di inferenza è più avanzato per alcune logiche in cui esistono implementazioni open source molto veloci e pronte all'uso. In questi casi, il motore di traduzione viene utilizzato per riscrivere un problema di ragionamento enunciato in un modello del mondo o in una logica di origine in un problema di ragionamento enunciato nella logica di destinazione.
+\end{myobservation}
+
+
+\begin{myintuition}[(Il processo di utilizzo della logica)]
+    Le logiche sono utilizzate seguendo il modello Tell, Ask, Reason, Answer definito in Intuizione 9.1. Tuttavia, prima di ciò, il sistema rappresentato in Figura 9.1 deve essere specificato (e implementato). Il modello di specifica affinché ciò avvenga è il seguente:
+    \begin{enumerate}
+        \item Selezione del modello del mondo \(W\) e, in particolare, del linguaggio di rappresentazione \(LW\) e della funzione di interpretazione corrispondente. Ciò comporta a sua volta i seguenti tre passaggi:
+        \begin{itemize}
+            \item Selezione del linguaggio assertivo \(L_A\) (e della funzione di interpretazione) utilizzato per specificare il dominio di interpretazione;
+            \item Selezione del linguaggio delle formule atomiche \(L_a\) (e della funzione di interpretazione) utilizzato per specificare formule atomiche e il corrispondente insieme di regole di formazione \(R_a\);
+            \item Selezione del linguaggio di rappresentazione \(L\) utilizzato per specificare le formule e il corrispondente insieme di regole di formazione \(R_a\).
+        \end{itemize}
+        \item Selezione della relazione di implicazione \(\models\), che comporta i seguenti due passaggi:
+        \begin{itemize}
+            \item Selezione del linguaggio di rappresentazione del ragionamento \(L_R\);
+            \item Selezione della funzione di interpretazione per \(L_R\);
+            \item Selezione della relazione di conseguenza \(\models{L_R}\) utilizzata per implementare il ragionamento e i problemi di ragionamento corrispondenti;
+            \item Selezione del motore di inferenza utilizzato per risolvere i problemi di ragionamento target.
+        \end{itemize}
+        \item Selezione della procedura di traduzione utilizzata per tradurre le affermazioni \(a \in L_a\) che descrivono i fatti memorizzati nel modello del mondo alle formule \(w \in L\) del linguaggio del ragionatore.
+        \item Selezione del motore di inferenza.
+    \end{enumerate}
+\end{myintuition}
+
+\begin{myobservation}[(Logica, trade-off nella selezione)]
+    Qualsiasi logica può essere caratterizzata da due parametri principali:
+    \begin{itemize}
+        \item Espressività, ovvero il livello di dettaglio con cui il problema è espresso, a seconda della sintassi del linguaggio della logica;
+        \item Efficienza computazionale, cioè quanto costa, in termini di spazio e tempo, ragionare e rispondere a interrogazioni in quel linguaggio.
+    \end{itemize}
+
+    Maggiore espressività consente una modellazione più raffinata e precisa del problema, ma genera anche formule più lunghe e complesse. Esiste un trade-off cruciale, in quanto maggiore è l'espressività di una logica, meno è computazionalmente gestibile.
+
+    Il modellatore deve trovare il giusto equilibrio tra espressività e complessità computazionale. In questo contesto, la scelta del linguaggio di rappresentazione \(L = <L_a, L_c>\) è cruciale. La complessità computazionale sia di \(L_a\) che di \(L_c\) varia infatti da polinomiale a esponenziale e oltre. Sorge anche una questione di (in)decidibilità, cioè la possibilità per il ragionatore, su alcune interrogazioni, di entrare in un ciclo infinito, senza mai terminare e, di conseguenza, senza mai restituire una risposta.
+
+    Tuttavia, questa questione, sebbene molto rilevante nella logica matematica e nella teoria della computazione, non ha rilevanza pratica in questo contesto, principalmente perché nei domini di interpretazione dell'IA sono (quasi) sempre finiti, garantendo così la terminazione, anche nel caso di LOL, una delle logiche più espressive che consideriamo.
+
+\end{myobservation}
+
+\chapter{\(\mathcal{LOE}\) A Logic of Entities}
+
 
 \end{document}
